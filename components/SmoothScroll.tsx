@@ -5,15 +5,11 @@ import Lenis from "lenis";
 
 export default function SmoothScroll() {
   useEffect(() => {
+    // オプションを最小限にして型エラーを回避
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: "vertical",
-      gestureDirection: "vertical",
-      smooth: true,
-      mouseMultiplier: 1,
-      // smoothTouch: false, ← これがエラー原因だったので削除しました
-      touchMultiplier: 2,
+      // direction, gestureDirection, smooth などの古いオプションを削除
       infinite: false,
     });
 
