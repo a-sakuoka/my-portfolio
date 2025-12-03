@@ -21,7 +21,6 @@ export default function SmoothScroll() {
       smoothWheel: true,
       // スクロール感度を少し下げて、より繊細な操作感に
       wheelMultiplier: 0.8,
-      smoothTouch: false,
       touchMultiplier: 2,
       infinite: false,
     });
