@@ -13,9 +13,11 @@ interface ProductPageProps {
   params: Promise<{ id: string }>;
 }
 
+// ↓↓↓ この1行がCloudflare Pagesでの動作に必須です ↓↓↓
 export const runtime = "edge";
 
 export default function ProductPage({ params }: ProductPageProps) {
+  // Next.js 15以降の非同期paramsの取得方法
   const { id } = use(params);
   const router = useRouter();
   const product = getProductById(id);
@@ -43,7 +45,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
         onClick={() => router.back()}
-        className="fixed top-24 left-8 md:left-16 z-40 text-[#1a1a1a]/60 hover:text-[#1a1a1a] transition-colors text-sm md:text-base"
+        className="fixed top-24 left-8 md:left-16 z-40 text-[#1a1a1a]/60 hover:text-[#1a1a1a] transition-colors text-sm md:text-base mix-blend-difference text-white"
       >
         ← Back
       </motion.button>
@@ -93,7 +95,7 @@ export default function ProductPage({ params }: ProductPageProps) {
       </section>
 
       {/* Main Content */}
-      <section className="relative">
+      <section className="relative bg-[#f4f4f4]">
         <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16">
             {/* Content Area */}
@@ -238,4 +240,3 @@ export default function ProductPage({ params }: ProductPageProps) {
     </div>
   );
 }
-
