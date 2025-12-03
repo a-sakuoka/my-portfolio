@@ -1,43 +1,26 @@
-import type { Metadata } from 'next';
-import { Inter, Noto_Sans_JP } from 'next/font/google';
-import './globals.css';
-import SmoothScroll from '@/components/SmoothScroll';
-import GrainOverlay from '@/components/GrainOverlay';
-import CustomCursor from '@/components/CustomCursor';
+import type { Metadata } from "next";
+import "./globals.css";
+// GrainOverlayやSmoothScrollなどのimportは残す
 
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const notoSansJP = Noto_Sans_JP({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-noto-sans-jp',
-  display: 'swap',
-});
+// const inter = ... ← こういう定義があったら削除！
 
 export const metadata: Metadata = {
-  title: 'Portfolio',
-  description: 'A minimal portfolio website',
+  title: "My Portfolio",
+  description: "Portfolio site",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="ja">
-      <body className={`${inter.variable} ${notoSansJP.variable} font-sans`}>
-        <CustomCursor />
-        <GrainOverlay />
-        <SmoothScroll />
+      {/* classNameから ${inter.variable} などを消して、シンプルにする */}
+      <body className="antialiased">
+        {/* GrainOverlayなどはここにあればそのまま残す */}
         {children}
       </body>
     </html>
   );
 }
-

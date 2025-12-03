@@ -1,8 +1,15 @@
-@import "tailwindcss";
+/* 1行目にフォント読み込み（必須） */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 変数定義をまとめました */
 :root {
   --background: #f4f4f4;
   --foreground: #1a1a1a;
+  --font-main: 'Inter', 'Noto Sans JP', sans-serif;
 }
 
 * {
@@ -19,7 +26,8 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
-  font-family: var(--font-inter), var(--font-noto-sans-jp), sans-serif;
+  /* ここでフォントを一括指定 */
+  font-family: var(--font-main);
 }
 
 /* Hide default cursor on desktop when custom cursor is active */
@@ -47,4 +55,3 @@ body {
 .grain-overlay {
   animation: grain 8s steps(10) infinite;
 }
-
