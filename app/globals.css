@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4f4f4;
+  --foreground: #1a1a1a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  font-family: var(--font-inter), var(--font-noto-sans-jp), sans-serif;
+}
+
+/* Hide default cursor on desktop when custom cursor is active */
+@media (min-width: 1024px) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* Grain animation keyframes */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+/* Grain overlay animation */
+.grain-overlay {
+  animation: grain 8s steps(10) infinite;
+}
+
