@@ -13,6 +13,8 @@ interface ProductPageProps {
   params: Promise<{ id: string }>;
 }
 
+export const runtime = "edge";
+
 export default function ProductPage({ params }: ProductPageProps) {
   const { id } = use(params);
   const router = useRouter();
