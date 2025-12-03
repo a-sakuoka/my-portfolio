@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
     // Cloudflareの無料プランで必須の設定
     unoptimized: true,
   },
-  // ↓以前のエラーの原因だった eslint 設定を削除しました
+  // ここにあった eslint の設定は完全に削除しました
 };
 
 export default nextConfig;
