@@ -9,11 +9,10 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
       },
     ],
+    // Cloudflareの無料プランで必須の設定
     unoptimized: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // ↓以前のエラーの原因だった eslint 設定を削除しました
 };
 
 export default nextConfig;
