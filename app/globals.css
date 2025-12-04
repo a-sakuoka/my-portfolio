@@ -1,10 +1,17 @@
-/* 1行目にフォント読み込み */
+/* フォント読み込み */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ↓↓↓ Tailwind v4用の読み込み記述に変更 ↓↓↓ */
+@import "tailwindcss";
 
+/* テーマ設定（CSS変数） */
+@theme {
+  --font-main: 'Inter', 'Noto Sans JP', sans-serif;
+  --color-background: #f4f4f4;
+  --color-foreground: #1a1a1a;
+}
+
+/* カスタム変数の定義（互換性のため） */
 :root {
   --background: #f4f4f4;
   --foreground: #1a1a1a;
