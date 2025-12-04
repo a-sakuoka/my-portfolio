@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import "./globals.css";
-// GrainOverlayやSmoothScrollなどのimportは残す
-
-// const inter = ... ← こういう定義があったら削除！
+import "./globals.css"; // ★★★ これが消えているのが原因です！ ★★★
+import GrainOverlay from "@/components/GrainOverlay";
+import SmoothScroll from "@/components/SmoothScroll";
+import CustomCursor from "@/components/CustomCursor"; // これもあれば戻しておきます
 
 export const metadata: Metadata = {
   title: "My Portfolio",
@@ -16,9 +16,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      {/* classNameから ${inter.variable} などを消して、シンプルにする */}
-      <body className="antialiased">
-        {/* GrainOverlayなどはここにあればそのまま残す */}
+      <body className="antialiased bg-[#f4f4f4] text-[#1a1a1a]">
+        {/* 背景のノイズ効果 */}
+        <GrainOverlay />
+        {/* スムーススクロール */}
+        <SmoothScroll />
+        {/* カスタムカーソル（PCのみ） */}
+        <div className="hidden lg:block">
+          <CustomCursor />
+        </div>
+
+        {/* ページの中身 */}
         {children}
       </body>
     </html>
