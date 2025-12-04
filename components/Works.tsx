@@ -51,7 +51,7 @@ function ProjectCard({ title, category, index, imageUrl, bgColor }: ProjectCardP
             src={imageUrl}
             alt={title}
             fill
-            className="object-cover"
+            className="object-cover object-center"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
           />
         </motion.div>

@@ -38,7 +38,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   return (
     <div className="relative">
       <Header />
-      
+
       {/* Back Button */}
       <motion.button
         initial={{ opacity: 0 }}
@@ -57,7 +57,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             src={product.imageUrl}
             alt={product.title}
             fill
-            className="object-cover"
+            className="object-cover object-center"
             priority
             sizes="100vw"
           />
@@ -215,11 +215,11 @@ export default function ProductPage({ params }: ProductPageProps) {
                       }}
                       className="w-full py-4 px-6 bg-[#1a1a1a] text-white font-medium rounded-lg hover:bg-[#1a1a1a]/90 transition-colors text-center"
                     >
-                      {product.price === 'Free Beta' 
-                        ? 'Try Free Beta' 
-                        : product.type === 'Subscription' 
-                        ? 'Subscribe' 
-                        : 'Purchase'}
+                      {product.price === 'Free Beta'
+                        ? 'Try Free Beta'
+                        : product.type === 'Subscription'
+                          ? 'Subscribe'
+                          : 'Purchase'}
                     </button>
 
                     {/* Additional Info */}

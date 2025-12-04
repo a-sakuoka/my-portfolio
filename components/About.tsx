@@ -50,7 +50,7 @@ export default function About() {
                   src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
                   alt="Minimal ocean and sky"
                   fill
-                  className="object-cover"
+                  className="object-cover object-center"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 35vw"
                 />
               </motion.div>

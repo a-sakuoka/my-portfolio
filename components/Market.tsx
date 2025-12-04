@@ -23,69 +23,69 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-      {/* Image */}
-      <motion.div
-        className="relative overflow-hidden mb-4 rounded-lg"
-        style={{ aspectRatio: '16/9', backgroundColor: '#f0f0f0' }}
-        animate={{
-          scale: isHovered ? 1.02 : 1,
-        }}
-        transition={{
-          type: 'spring',
-          stiffness: 300,
-          damping: 30,
-        }}
-      >
+        {/* Image */}
         <motion.div
-          className="w-full h-full"
+          className="relative overflow-hidden mb-4 rounded-lg"
+          style={{ aspectRatio: '16/9', backgroundColor: '#f0f0f0' }}
           animate={{
-            filter: isHovered ? 'brightness(1.05)' : 'brightness(1)',
+            scale: isHovered ? 1.02 : 1,
           }}
           transition={{
-            duration: 0.3,
+            type: 'spring',
+            stiffness: 300,
+            damping: 30,
           }}
         >
-          <Image
-            src={product.imageUrl}
-            alt={product.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
+          <motion.div
+            className="w-full h-full"
+            animate={{
+              filter: isHovered ? 'brightness(1.05)' : 'brightness(1)',
+            }}
+            transition={{
+              duration: 0.3,
+            }}
+          >
+            <Image
+              src={product.imageUrl}
+              alt={product.title}
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </motion.div>
         </motion.div>
-      </motion.div>
 
-      {/* Content */}
-      <div className="space-y-3">
-        {/* Title */}
-        <h3 className="text-xl md:text-2xl font-medium text-[#1a1a1a] group-hover:text-[#1a1a1a]/80 transition-colors">
-          {product.title}
-        </h3>
+        {/* Content */}
+        <div className="space-y-3">
+          {/* Title */}
+          <h3 className="text-xl md:text-2xl font-medium text-[#1a1a1a] group-hover:text-[#1a1a1a]/80 transition-colors">
+            {product.title}
+          </h3>
 
-        {/* Description */}
-        <p className="text-sm md:text-base text-gray-600 leading-relaxed line-clamp-2">
-          {product.description}
-        </p>
+          {/* Description */}
+          <p className="text-sm md:text-base text-gray-600 leading-relaxed line-clamp-2">
+            {product.description}
+          </p>
 
-        {/* Badges and Price */}
-        <div className="flex items-center justify-between gap-3">
-          {/* Badges */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-2.5 py-1 text-xs font-medium text-[#1a1a1a]/70 bg-[#1a1a1a]/5 rounded-full">
-              {product.category}
-            </span>
-            <span className="px-2.5 py-1 text-xs font-medium text-[#1a1a1a]/70 bg-[#1a1a1a]/5 rounded-full">
-              {product.type === 'Subscription' ? 'サブスク' : '買い切り'}
+          {/* Badges and Price */}
+          <div className="flex items-center justify-between gap-3">
+            {/* Badges */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-1 text-xs font-medium text-[#1a1a1a]/70 bg-[#1a1a1a]/5 rounded-full">
+                {product.category}
+              </span>
+              <span className="px-2.5 py-1 text-xs font-medium text-[#1a1a1a]/70 bg-[#1a1a1a]/5 rounded-full">
+                {product.type === 'Subscription' ? 'サブスク' : '買い切り'}
+              </span>
+            </div>
+
+            {/* Price */}
+            <span className="text-lg md:text-xl font-semibold text-[#1a1a1a] whitespace-nowrap">
+              {product.price}
             </span>
           </div>
-
-          {/* Price */}
-          <span className="text-lg md:text-xl font-semibold text-[#1a1a1a] whitespace-nowrap">
-            {product.price}
-          </span>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
     </Link>
   );
 }
@@ -140,11 +140,10 @@ export default function Market() {
                     key={filter}
                     layout
                     onClick={() => setSelectedFilter(filter)}
-                    className={`relative px-4 py-2 text-sm md:text-base font-medium transition-colors ${
-                      selectedFilter === filter
+                    className={`relative px-4 py-2 text-sm md:text-base font-medium transition-colors ${selectedFilter === filter
                         ? 'text-[#1a1a1a]'
                         : 'text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70'
-                    }`}
+                      }`}
                   >
                     {filter}
                     {selectedFilter === filter && (
