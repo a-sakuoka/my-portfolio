@@ -42,7 +42,7 @@ export default function About() {
 
             <div className="space-y-6 text-gray-600 leading-relaxed font-light">
               <p>
-                私は<span className="font-medium text-[#1a1a1a]">17年のインフラエンジニア経験</span>を土台に、
+                私は<span className="font-medium text-[#1a1a1a]">aaaaaaaaa17年のインフラエンジニア経験</span>を土台に、
                 AIコーディングを活用して “アイデアを最速でプロダクトにする” 個人開発者です。
               </p>
               <p>
