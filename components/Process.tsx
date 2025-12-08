@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function Process() {
     return (
-        <section className="py-20 md:py-32 bg-[#f4f4f4] px-8 md:px-16 lg:px-24">
+        <section id="process" className="py-20 md:py-32 bg-[#f4f4f4] px-8 md:px-16 lg:px-24">
             <div className="max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

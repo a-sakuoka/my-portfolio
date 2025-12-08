@@ -8,7 +8,7 @@ export default function About() {
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   return (
-    <section id="about" className="min-h-screen py-32 md:py-48 lg:py-64 px-8 md:px-16 lg:px-24 flex items-center">
+    <section className="min-h-screen py-32 md:py-48 lg:py-64 px-8 md:px-16 lg:px-24 flex items-center">
       <div className="max-w-7xl mx-auto w-full">
         {/* Label */}
         <motion.div

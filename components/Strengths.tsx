@@ -34,7 +34,7 @@ export default function Strengths() {
     ];
 
     return (
-        <section className="py-20 md:py-32 bg-white px-8 md:px-16 lg:px-24">
+        <section id="about" className="py-20 md:py-32 bg-white px-8 md:px-16 lg:px-24">
             <div className="max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

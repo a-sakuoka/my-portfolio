@@ -21,6 +21,8 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  /* ヘッダーの高さ分 */
 }
 
 body {

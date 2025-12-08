@@ -23,33 +23,14 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
   }, [isOpen]);
 
   const menuItems = [
-    { label: 'Home', id: 'hero', href: '/', isLink: true },
-    { label: 'About', id: 'about', href: '/#about' },
-    { label: 'Works', id: 'works', href: '/#works' },
-    { label: 'Contact', id: 'contact', href: '/contact', isLink: true },
+    { label: 'Home', href: '/' },
+    { label: '01 / ABOUT', href: '/#about' },
+    { label: '02 / SERVICES', href: '/#services' },
+    { label: '03 / PROCESS', href: '/#process' },
+    { label: '04 / FAQ', href: '/#faq' },
+    { label: '05 / MARKET', href: '/#market' },
+    { label: 'Contact', href: '/contact' },
   ];
-
-  const handleMenuClick = (item: { id: string; href: string; isLink?: boolean }) => {
-    onClose();
-    if (item.isLink) return;
-
-    setTimeout(() => {
-      const element = document.getElementById(item.id);
-      if (element) {
-        const lenisInstance = (window as any).lenis;
-        if (lenisInstance) {
-          lenisInstance.scrollTo(element, {
-            duration: 1.2,
-            easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          });
-        } else {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      } else if (item.href.startsWith('/#')) {
-        window.location.href = item.href;
-      }
-    }, 300);
-  };
 
   return (
     <AnimatePresence>
@@ -85,7 +66,7 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
             <nav className="flex flex-col items-center gap-4 md:gap-6">
               {menuItems.map((item, index) => (
                 <motion.div
-                  key={item.id}
+                  key={item.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -94,22 +75,13 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
                     ease: [0.22, 1, 0.36, 1],
                   }}
                 >
-                  {item.isLink ? (
-                    <Link
-                      href={item.href}
-                      onClick={() => onClose()}
-                      className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-[#1a1a1a] hover:opacity-60 transition-opacity"
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <button
-                      onClick={() => handleMenuClick(item)}
-                      className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-[#1a1a1a] hover:opacity-60 transition-opacity"
-                    >
-                      {item.label}
-                    </button>
-                  )}
+                  <Link
+                    href={item.href}
+                    onClick={onClose}
+                    className="text-3xl md:text-4xl lg:text-5xl font-light text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                  >
+                    {item.label}
+                  </Link>
                 </motion.div>
               ))}
             </nav>

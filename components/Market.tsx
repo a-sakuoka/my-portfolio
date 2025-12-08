@@ -114,7 +114,7 @@ export default function Market() {
   }, [selectedFilter]);
 
   return (
-    <section id="works" className="min-h-screen py-32 md:py-48 lg:py-64 px-8 md:px-16 lg:px-24 flex items-center">
+    <section id="market" className="min-h-screen py-32 md:py-48 lg:py-64 px-8 md:px-16 lg:px-24 flex items-center">
       <div className="max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
           {/* Left Column - Label */}
@@ -147,8 +147,8 @@ export default function Market() {
                     layout
                     onClick={() => setSelectedFilter(filter)}
                     className={`relative px-4 py-2 text-sm md:text-base font-medium transition-colors ${selectedFilter === filter
-                        ? 'text-[#1a1a1a]'
-                        : 'text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70'
+                      ? 'text-[#1a1a1a]'
+                      : 'text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70'
                       }`}
                   >
                     {filter}
