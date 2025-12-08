@@ -31,7 +31,7 @@ export default function Header() {
           {/* Logo - Left */}
           <div className={`${textColorClass} transition-colors duration-300`}>
             <h1 className="text-xl md:text-2xl font-medium tracking-tight">
-              Your Name
+              Jun
             </h1>
           </div>
 
