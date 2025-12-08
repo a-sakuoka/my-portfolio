@@ -23,7 +23,7 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
   }, [isOpen]);
 
   const menuItems = [
-    { label: 'Home', id: 'hero', href: '/' },
+    { label: 'Home', id: 'hero', href: '/', isLink: true },
     { label: 'About', id: 'about', href: '/#about' },
     { label: 'Works', id: 'works', href: '/#works' },
     { label: 'Contact', id: 'contact', href: '/contact', isLink: true },
