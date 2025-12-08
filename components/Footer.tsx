@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 export default function Footer() {
@@ -10,16 +11,19 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         {/* Main Content */}
         <div className="mb-16 md:mb-24">
-          <motion.a
-            href="mailto:hello@example.com"
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="block text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-light mb-6 md:mb-8 hover:opacity-80 transition-opacity"
           >
-            hello@example.com
-          </motion.a>
+            <Link
+              href="/contact"
+              className="block text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-light mb-6 md:mb-8 hover:opacity-80 transition-opacity"
+            >
+              Contact
+            </Link>
+          </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
 
@@ -22,18 +23,19 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
   }, [isOpen]);
 
   const menuItems = [
-    { label: 'Home', id: 'hero' },
-    { label: 'About', id: 'about' },
-    { label: 'Works', id: 'works' },
-    { label: 'Contact', id: 'footer' },
+    { label: 'Home', id: 'hero', href: '/' },
+    { label: 'About', id: 'about', href: '/#about' },
+    { label: 'Works', id: 'works', href: '/#works' },
+    { label: 'Contact', id: 'contact', href: '/contact', isLink: true },
   ];
 
-  const handleMenuClick = (id: string) => {
+  const handleMenuClick = (item: { id: string; href: string; isLink?: boolean }) => {
     onClose();
+    if (item.isLink) return;
+
     setTimeout(() => {
-      const element = document.getElementById(id);
+      const element = document.getElementById(item.id);
       if (element) {
-        // Lenisのインスタンスを取得してスムーズスクロール
         const lenisInstance = (window as any).lenis;
         if (lenisInstance) {
           lenisInstance.scrollTo(element, {
@@ -41,11 +43,12 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
             easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           });
         } else {
-          // Lenisが使えない場合は通常のスムーズスクロール
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+      } else if (item.href.startsWith('/#')) {
+        window.location.href = item.href;
       }
-    }, 300); // メニューが閉じるアニメーションを待つ
+    }, 300);
   };
 
   return (
@@ -81,7 +84,7 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
             {/* Menu Items */}
             <nav className="flex flex-col items-center gap-4 md:gap-6">
               {menuItems.map((item, index) => (
-                <motion.button
+                <motion.div
                   key={item.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -90,11 +93,24 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
                     delay: index * 0.1,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  onClick={() => handleMenuClick(item.id)}
-                  className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-[#1a1a1a] hover:opacity-60 transition-opacity"
                 >
-                  {item.label}
-                </motion.button>
+                  {item.isLink ? (
+                    <Link
+                      href={item.href}
+                      onClick={() => onClose()}
+                      className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => handleMenuClick(item)}
+                      className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                    >
+                      {item.label}
+                    </button>
+                  )}
+                </motion.div>
               ))}
             </nav>
           </motion.div>
@@ -103,4 +119,3 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
     </AnimatePresence>
   );
 }
-
