@@ -4,6 +4,9 @@ export type ProductCategory = 'SaaS' | 'Tool' | 'Mobile App' | 'Template' | 'Ser
 // 販売形態の型定義
 export type ProductType = 'Subscription' | 'One-time Purchase';
 
+// リンクタイプの型定義
+export type LinkType = 'internal' | 'external' | 'pdf';
+
 // 商品データの型定義
 export interface Product {
   id: string;
@@ -18,6 +21,8 @@ export interface Product {
   techStack?: string[]; // 技術スタック（オプショナル）
   catchphrase?: string; // キャッチコピー（オプショナル）
   problemSolved: string; // 解決した課題
+  linkType: LinkType; // リンクタイプ
+  targetUrl?: string; // 遷移先URL
 }
 
 // 商品データ
@@ -32,6 +37,7 @@ export const products: Product[] = [
     imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
     checkoutUrl: '#',
     problemSolved: '以前はタスクの抜け漏れや進捗確認の手間が発生していたが、タスクの一元管理により進捗が可視化され、チームの生産性が20%向上しました。',
+    linkType: 'internal',
   },
   {
     id: 'service-b',
@@ -43,6 +49,7 @@ export const products: Product[] = [
     imageUrl: 'https://images.unsplash.com/photo-1634128221889-82ed6efebfc3?auto=format&fit=crop&w=800&q=80',
     checkoutUrl: '#',
     problemSolved: '以前はブログ用のコード画像作成に手間取っていたが、これを使うことで美しい画像を数秒で生成でき、記事作成の効率が大幅にアップしました。',
+    linkType: 'internal',
   },
   {
     id: 'service-c',
@@ -54,6 +61,7 @@ export const products: Product[] = [
     imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
     checkoutUrl: '#',
     problemSolved: '以前はゼロからサイトを作るのに数週間かかっていたが、テンプレート利用により最短1日でプロフェッショナルなポートフォリオを公開できました。',
+    linkType: 'internal',
   },
   {
     id: 'service-d',
@@ -65,6 +73,7 @@ export const products: Product[] = [
     imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
     checkoutUrl: '#',
     problemSolved: '以前は記録が続かず挫折していたが、スマホで簡単に記録できることで継続率が向上し、目標体重を達成できました。',
+    linkType: 'internal',
   },
   {
     id: 'sales-pin',
@@ -93,6 +102,7 @@ export const products: Product[] = [
       'Google Maps API',
     ],
     problemSolved: '以前は帰社後の日報作成で残業が発生していたが、スマホからの報告により直帰が可能になり、移動時間の有効活用が進みました。',
+    linkType: 'internal',
   },
 ];
 

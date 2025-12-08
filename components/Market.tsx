@@ -11,8 +11,29 @@ type FilterCategory = 'All' | 'SaaS' | 'Tool' | 'Others';
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const [isHovered, setIsHovered] = useState(false);
 
+  /* Wrapper for Link logic */
+  const CardWrapper = ({ children }: { children: React.ReactNode }) => {
+    if (product.linkType === 'external' || product.linkType === 'pdf') {
+      return (
+        <a
+          href={product.targetUrl || '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full h-full"
+        >
+          {children}
+        </a>
+      );
+    }
+    return (
+      <Link href={`/products/${product.id}`} className="block w-full h-full">
+        {children}
+      </Link>
+    );
+  };
+
   return (
-    <Link href={`/products/${product.id}`}>
+    <CardWrapper>
       <motion.div
         layout
         initial={{ opacity: 0, y: 20 }}
@@ -92,7 +113,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </div>
         </div>
       </motion.div>
-    </Link>
+    </CardWrapper>
   );
 }
 
@@ -185,4 +206,3 @@ export default function Market() {
     </section>
   );
 }
-

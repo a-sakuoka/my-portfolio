@@ -31,11 +31,11 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="md:col-span-5"
+            className="md:col-span-5 flex justify-center md:justify-start"
             onMouseEnter={() => setIsImageHovered(true)}
             onMouseLeave={() => setIsImageHovered(false)}
           >
-            <div className="relative w-full aspect-[4/5] overflow-hidden">
+            <div className="relative w-[280px] md:w-[320px] aspect-square overflow-hidden rounded-2xl shadow-lg">
               <motion.div
                 animate={{
                   filter: isImageHovered ? 'grayscale(0%)' : 'grayscale(100%)',
@@ -47,11 +47,11 @@ export default function About() {
                 className="w-full h-full"
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
-                  alt="Minimal ocean and sky"
+                  src="/profile.png"
+                  alt="Profile Picture"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 35vw"
+                  sizes="(max-width: 768px) 100vw, 320px"
                 />
               </motion.div>
             </div>

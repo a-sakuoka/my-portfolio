@@ -74,6 +74,22 @@ export default function Footer() {
             >
               Instagram
             </a>
+            <a
+              href="https://menta.work/user/33588"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors"
+            >
+              MENTA
+            </a>
+            <a
+              href="https://note.com/yurufwa_se"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors"
+            >
+              note
+            </a>
           </div>
         </motion.div>
       </div>
