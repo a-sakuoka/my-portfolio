@@ -45,7 +45,7 @@ export default function Footer() {
         >
           {/* Copyright */}
           <p className="text-sm md:text-base text-white/50">
-            © {currentYear} Your Name
+            © {currentYear} Jun
           </p>
 
           {/* Social Links */}

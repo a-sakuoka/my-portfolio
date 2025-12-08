@@ -66,25 +66,29 @@ export default function About() {
             className="md:col-span-7 flex flex-col justify-center"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 md:mb-8 text-[#1a1a1a]">
-              Designing, Building, and Selling — in the AI Era.
+              Designing Speed, Building Trust.
             </h2>
             <div className="space-y-4 md:space-y-6">
               <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed md:leading-loose">
-                私は<span className="font-semibold text-[#1a1a1a]">17年のインフラエンジニア経験</span>を土台に、
+                私は17年にわたるインフラエンジニアとしてのキャリアで培った
                 <br className="hidden md:block" />
-                AIコーディングを活用して <span className="font-semibold text-[#1a1a1a]">"アイデアを最速でプロダクトにする"</span> 個人開発者です。
+                <span className="font-semibold text-[#1a1a1a]">「堅牢なシステム設計」</span>を土台に、
+                <br className="hidden md:block" />
+                アイデアを最速でプロダクト（形）にするフルスタックエンジニアです。
               </p>
               <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed md:leading-loose">
-                Webサービス、ホームページ（LP含む）、業務アプリケーション、
+                大規模システムの安定稼働を支えてきた経験と、
                 <br className="hidden md:block" />
-                場合によってはネイティブアプリまで、
+                モダンな開発技術を組み合わせることで、
                 <br className="hidden md:block" />
-                プロダクトの要件に応じて最適な言語・技術スタックをAIと共に選定し、実装します。
+                <span className="font-semibold text-[#1a1a1a]">「速さ」と「品質」を両立した開発</span>を提供します。
               </p>
               <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed md:leading-loose">
-                使用ツールは主に <span className="font-semibold text-[#1a1a1a]">Cursor</span>。
+                Webサービス、LP、業務システムからネイティブアプリまで。
                 <br className="hidden md:block" />
-                コードを書くスピードだけでなく、改善・検証・高速なリリースサイクルを重視しています。
+                単にコードを書くだけでなく、あなたのビジネスの成長速度を加速させるパートナーとして、
+                <br className="hidden md:block" />
+                設計から実装、リリース後の改善まで一貫してサポートします。
               </p>
             </div>
           </motion.div>

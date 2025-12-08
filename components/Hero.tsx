@@ -29,7 +29,7 @@ export default function Hero() {
           className="flex flex-col items-start md:items-center lg:items-start"
         >
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-4 md:mb-6 text-white">
-            Name
+            Jun
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -37,7 +37,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="text-xl md:text-2xl lg:text-3xl text-white/90 font-light"
           >
-            Front-End Developer
+            Full-Stack Product Engineer
           </motion.p>
         </motion.div>
       </div>
