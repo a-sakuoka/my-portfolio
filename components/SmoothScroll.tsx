@@ -7,7 +7,7 @@ export default function SmoothScroll() {
   useEffect(() => {
     // オプションを極限まで減らして、エラーの原因を排除しました
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.8,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       infinite: false,
     });

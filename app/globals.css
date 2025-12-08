@@ -30,13 +30,6 @@ body {
   font-family: var(--font-main);
 }
 
-/* Hide default cursor on desktop when custom cursor is active */
-@media (min-width: 1024px) {
-  * {
-    cursor: none !important;
-  }
-}
-
 /* Grain animation */
 @keyframes grain {
 
