@@ -17,27 +17,29 @@ export default function Hero() {
           sizes="100vw"
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/50 z-0" />
+        <div className="absolute inset-0 bg-black/60 z-0" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-6xl">
+      <div className="relative z-10 w-full max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col items-start md:items-center lg:items-start"
         >
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-4 md:mb-6 text-white">
-            Jun
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 md:mb-8 text-white leading-tight">
+            インフラのプロが作る、
+            <br className="md:hidden" />
+            止まらない・速い・柔軟なWeb構築
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-xl md:text-2xl lg:text-3xl text-white/90 font-light"
+            className="text-lg md:text-xl lg:text-2xl text-white/90 font-light"
           >
-            Full-Stack Product Engineer
+            現役インフラエンジニアによる『高速開発』×『安定運用』
           </motion.p>
         </motion.div>
       </div>

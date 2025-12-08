@@ -17,6 +17,7 @@ export interface Product {
   features?: string[]; // 機能リスト（オプショナル）
   techStack?: string[]; // 技術スタック（オプショナル）
   catchphrase?: string; // キャッチコピー（オプショナル）
+  problemSolved: string; // 解決した課題
 }
 
 // 商品データ
@@ -30,6 +31,7 @@ export const products: Product[] = [
     description: 'チーム向けのタスク管理ツール。直感的なUIで、プロジェクトを効率的に進められます。',
     imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
     checkoutUrl: '#',
+    problemSolved: '以前はタスクの抜け漏れや進捗確認の手間が発生していたが、タスクの一元管理により進捗が可視化され、チームの生産性が20%向上しました。',
   },
   {
     id: 'service-b',
@@ -40,6 +42,7 @@ export const products: Product[] = [
     description: '美しいコードスニペット画像を生成するデザインツール。開発者ブログやドキュメントに最適です。',
     imageUrl: 'https://images.unsplash.com/photo-1634128221889-82ed6efebfc3?auto=format&fit=crop&w=800&q=80',
     checkoutUrl: '#',
+    problemSolved: '以前はブログ用のコード画像作成に手間取っていたが、これを使うことで美しい画像を数秒で生成でき、記事作成の効率が大幅にアップしました。',
   },
   {
     id: 'service-c',
@@ -50,6 +53,7 @@ export const products: Product[] = [
     description: 'Next.jsとTailwind CSSで構築された、モダンなポートフォリオサイトのテンプレート。',
     imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
     checkoutUrl: '#',
+    problemSolved: '以前はゼロからサイトを作るのに数週間かかっていたが、テンプレート利用により最短1日でプロフェッショナルなポートフォリオを公開できました。',
   },
   {
     id: 'service-d',
@@ -60,6 +64,7 @@ export const products: Product[] = [
     description: '健康管理をサポートするモバイルアプリ。運動記録と食事管理を一元化できます。',
     imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
     checkoutUrl: '#',
+    problemSolved: '以前は記録が続かず挫折していたが、スマホで簡単に記録できることで継続率が向上し、目標体重を達成できました。',
   },
   {
     id: 'sales-pin',
@@ -87,6 +92,7 @@ export const products: Product[] = [
       'Supabase',
       'Google Maps API',
     ],
+    problemSolved: '以前は帰社後の日報作成で残業が発生していたが、スマホからの報告により直帰が可能になり、移動時間の有効活用が進みました。',
   },
 ];
 

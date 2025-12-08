@@ -2,6 +2,7 @@
 
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import Strengths from '@/components/Strengths';
 import About from '@/components/About';
 import Services from '@/components/Services';
 import Process from '@/components/Process';
@@ -14,6 +15,7 @@ export default function Home() {
     <main className="relative">
       <Header />
       <Hero />
+      <Strengths />
       <About />
       <Services />
       <Process />

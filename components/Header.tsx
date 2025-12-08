@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import MenuOverlay from '@/components/MenuOverlay';
 
 export default function Header() {
@@ -29,11 +30,11 @@ export default function Header() {
       <header className="fixed top-0 w-full z-50 px-8 md:px-16 lg:px-24 py-6 md:py-8 pointer-events-none">
         <div className="flex justify-between items-center pointer-events-auto">
           {/* Logo - Left */}
-          <div className={`${textColorClass} transition-colors duration-300`}>
-            <h1 className="text-xl md:text-2xl font-medium tracking-tight">
-              Jun
-            </h1>
-          </div>
+          <Link href="/" className="block hover:opacity-80 transition-opacity">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-[#1a1a1a] flex items-center justify-center">
+              <span className="text-white font-mono font-bold text-lg md:text-xl tracking-tighter">{'>_'}</span>
+            </div>
+          </Link>
 
           {/* Menu Button - Right */}
           <button
