@@ -1,0 +1,2969 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+app/contact/page.tsx
+app/globals.css
+app/layout.tsx
+app/page.tsx
+app/products/[id]/page.tsx
+components/About.tsx
+components/AboutSection.tsx
+components/ContactForm.tsx
+components/CustomCursor.tsx
+components/FAQ.tsx
+components/Footer.tsx
+components/GrainOverlay.tsx
+components/Header.tsx
+components/Hero.tsx
+components/HeroSection.tsx
+components/Market.tsx
+components/MenuOverlay.tsx
+components/Process.tsx
+components/ProductModal.tsx
+components/Services.tsx
+components/SmoothScroll.tsx
+components/Strengths.tsx
+components/ThreeBackground.tsx
+components/Works.tsx
+components/WorksSection.tsx
+data/products.ts
+next.config.ts
+package.json
+postcss.config.mjs
+public/images/mymix/01_top.png
+public/images/mymix/02_result.png
+public/images/mymix/03_stock.png
+public/images/mymix/04_regist.png
+public/images/profile.png
+public/images/sales-pin/01_login.png
+public/images/sales-pin/02_map.png
+public/images/sales-pin/03_detail.png
+public/images/sales-pin/04_list.png
+public/images/shisha-manager/01_top.png
+public/images/shisha-manager/02_dashboard.png
+public/images/shisha-manager/03_settings.png
+public/images/shisha-manager/04_qr.png
+public/lp-sample1.pdf
+public/process-flow.png.jpg
+README.md
+tailwind.config.ts
+tsconfig.json
+types/index.ts
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="components/ProductModal.tsx">
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+// ChevronRight を追加済み
+import { X, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Product } from "@/types";
+
+interface ProductModalProps {
+    product: Product | null;
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+export default function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    useEffect(() => {
+        if (isOpen) {
+            setCurrentImageIndex(0);
+        }
+    }, [isOpen, product]);
+
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        };
+        window.addEventListener("keydown", handleEsc);
+        return () => window.removeEventListener("keydown", handleEsc);
+    }, [onClose]);
+
+    const nextImage = () => {
+        if (!product) return;
+        setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
+    };
+
+    const prevImage = () => {
+        if (!product) return;
+        setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
+    };
+
+    return (
+        <AnimatePresence>
+            {isOpen && product && (
+                <>
+                    {/* 背景オーバーレイ */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={onClose}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+                    >
+                        {/* モーダル本体 */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="relative w-full max-w-6xl max-h-[90vh] overflow-hidden bg-[#0B1120] text-white rounded-2xl shadow-2xl border border-white/10 flex flex-col md:flex-row"
+                        >
+                            {/* 閉じるボタン */}
+                            <button
+                                onClick={onClose}
+                                className="absolute top-4 right-4 z-20 p-2 bg-black/40 hover:bg-white/20 rounded-full transition-colors backdrop-blur-md"
+                            >
+                                <X size={24} />
+                            </button>
+
+                            {/* 左側：テキスト情報エリア */}
+                            <div className="w-full md:w-5/12 p-8 md:p-10 flex flex-col gap-6 overflow-y-auto max-h-[50vh] md:max-h-full custom-scrollbar">
+                                <div>
+                                    <span className="inline-block px-3 py-1 text-xs font-bold tracking-wider text-cyan-400 border border-cyan-400/30 rounded-full mb-4">
+                                        {product.category}
+                                    </span>
+                                    <h2 className="text-3xl font-bold mb-2 leading-tight">
+                                        {product.name}
+                                    </h2>
+                                    <div className="w-20 h-1 bg-cyan-500 mb-6"></div>
+
+                                    <div className="pl-4 border-l-4 border-amber-400 bg-white/5 p-4 rounded-r-lg mb-6">
+                                        <p className="text-base md:text-lg font-medium leading-relaxed text-gray-100 whitespace-pre-wrap">
+                                            {product.tagline}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-cyan-400 font-bold mb-3 flex items-center gap-2">主な機能</h3>
+                                    <ul className="space-y-2">
+                                        {product.features.map((feature, i) => (
+                                            <li key={i} className="flex items-start gap-3 text-gray-300 text-sm">
+                                                <span className="mt-1.5 min-w-[6px] h-[6px] rounded-full bg-cyan-400" />
+                                                {feature}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-amber-400 font-bold mb-3 flex items-center gap-2">解決できる悩み</h3>
+                                    <ul className="space-y-2">
+                                        {product.problemsSolved.map((prob, i) => (
+                                            <li key={i} className="flex items-start gap-3 text-gray-300 text-sm">
+                                                <CheckCircle size={16} className="text-amber-400 mt-0.5 shrink-0" />
+                                                {prob}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                <div className="mt-auto pt-6 border-t border-white/10">
+                                    <div className="bg-blue-900/30 border border-blue-500/30 rounded-lg p-4 text-sm">
+                                        <p className="text-blue-200 mb-1">
+                                            <span className="font-bold text-blue-400">価格:</span> {product.price}
+                                        </p>
+                                        <p className="text-blue-200">
+                                            <span className="font-bold text-blue-400">ターゲット:</span> {product.target}
+                                        </p>
+                                    </div>
+
+                                    {/* 技術スタック */}
+                                    <div className="flex flex-wrap gap-2 mt-4">
+                                        {product.techStack.map((tech) => (
+                                            <span key={tech} className="px-3 py-1 text-xs bg-white/10 rounded-md text-gray-300">
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* ▼▼ URLがある場合のみ表示するボタン ▼▼ */}
+                                    {product.url && (
+                                        <div className="mt-8">
+                                            <a
+                                                href={product.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition-colors w-full md:w-auto shadow-lg hover:shadow-cyan-500/20"
+                                            >
+                                                デモサイトを見る
+                                                <ChevronRight size={18} />
+                                            </a>
+                                        </div>
+                                    )}
+                                    {/* ▲▲ ここまで ▲▲ */}
+                                </div>
+                            </div>
+
+                            {/* 右側：画像スライダーエリア */}
+                            <div className="w-full md:w-7/12 bg-gray-900 relative min-h-[300px] md:h-auto flex items-center justify-center overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 pointer-events-none" />
+
+                                <div className="relative w-full h-full flex items-center justify-center p-8">
+                                    <AnimatePresence mode="wait">
+                                        <motion.div
+                                            key={currentImageIndex}
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            transition={{ duration: 0.3 }}
+                                            className="relative w-full h-full flex items-center justify-center"
+                                        >
+                                            <Image
+                                                src={product.images[currentImageIndex]}
+                                                alt={`${product.name} Image ${currentImageIndex + 1}`}
+                                                width={800}
+                                                height={600}
+                                                className="object-contain w-full h-full max-h-[600px] rounded-lg shadow-2xl border border-white/10"
+                                                unoptimized
+                                            />
+                                        </motion.div>
+                                    </AnimatePresence>
+                                </div>
+
+                                {product.images.length > 1 && (
+                                    <>
+                                        <button
+                                            onClick={prevImage}
+                                            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 hover:bg-cyan-500 hover:text-black text-white rounded-full backdrop-blur-sm transition-all z-10"
+                                        >
+                                            <ChevronLeft size={24} />
+                                        </button>
+                                        <button
+                                            onClick={nextImage}
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 hover:bg-cyan-500 hover:text-black text-white rounded-full backdrop-blur-sm transition-all z-10"
+                                        >
+                                            <ChevronRight size={24} />
+                                        </button>
+
+                                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                                            {product.images.map((_, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => setCurrentImageIndex(idx)}
+                                                    className={`w-2 h-2 rounded-full transition-all ${idx === currentImageIndex
+                                                            ? "bg-cyan-400 w-6"
+                                                            : "bg-white/30 hover:bg-white/60"
+                                                        }`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                </>
+            )}
+        </AnimatePresence>
+    );
+}
+</file>
+
+<file path="components/ThreeBackground.tsx">
+"use client";
+
+import { useRef, useMemo } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Points, PointMaterial } from "@react-three/drei";
+import * as THREE from "three";
+
+// 定数設定
+const PARTICLE_COUNT = 2000;
+const CONNECTION_DISTANCE = 1.8; // 繋がりやすさを少しアップ
+const CONNECTION_DIST_SQ = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
+const MAX_CONNECTIONS = 40; // 同時接続数を少し増やす
+
+function SceneContent() {
+  const { pointer, viewport } = useThree();
+
+  // パーティクルとラインをまとめるグループ
+  const groupRef = useRef<THREE.Group>(null);
+
+  // ラインのジオメトリ参照
+  const lineGeoRef = useRef<THREE.BufferGeometry>(null);
+
+  // 1. パーティクル位置データの生成
+  const positions = useMemo(() => {
+    const coords = new Float32Array(PARTICLE_COUNT * 3);
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const u = Math.random();
+      const v = Math.random();
+      const theta = 2 * Math.PI * u;
+      const phi = Math.acos(2 * v - 1);
+      const r = 1.5 + Math.random() * 2.5; // 半径1.5〜4.0の球殻状に配置
+      coords[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      coords[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      coords[i * 3 + 2] = r * Math.cos(phi);
+    }
+    return coords;
+  }, []);
+
+  // 2. ライン描画用のバッファ確保
+  const maxVertexCount = MAX_CONNECTIONS * 2;
+  const linePositions = useMemo(() => new Float32Array(maxVertexCount * 3), [maxVertexCount]);
+
+  // 計算用の一時変数をRefで保持（GC対策：毎フレームnewしないため）
+  const tempMatrix = useRef(new THREE.Matrix4());
+  const tempMouseLocal = useRef(new THREE.Vector3());
+
+  useFrame((state, delta) => {
+    const group = groupRef.current;
+    if (!group) return;
+
+    // --- A. アニメーション（回転） ---
+    // パーティクル全体をゆっくり回す
+    group.rotation.x -= delta / 25;
+    group.rotation.y -= delta / 30;
+
+    // 重要：回転させた結果（行列）を最新状態に更新
+    group.updateMatrixWorld();
+
+    // --- B. マウス座標の計算 ---
+    // 1. マウスのワールド座標（画面上の見た目の位置）を取得
+    const mouseX = (pointer.x * viewport.width) / 2;
+    const mouseY = (pointer.y * viewport.height) / 2;
+    const mouseZ = 0;
+
+    // 2. マウス位置を「回転しているグループの内部座標（ローカル）」に変換
+    // これにより、回転していても正しい距離判定が可能になる
+    tempMouseLocal.current.set(mouseX, mouseY, mouseZ);
+
+    // グループのワールド行列の「逆行列」を計算し、マウス座標に適用
+    tempMatrix.current.copy(group.matrixWorld).invert();
+    tempMouseLocal.current.applyMatrix4(tempMatrix.current);
+
+    const localMouseX = tempMouseLocal.current.x;
+    const localMouseY = tempMouseLocal.current.y;
+    const localMouseZ = tempMouseLocal.current.z;
+
+    // --- C. 距離判定とライン生成 ---
+    let vertexIndex = 0;
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      // 最大本数を超えたら終了
+      if (vertexIndex >= maxVertexCount * 3) break;
+
+      const px = positions[i * 3];
+      const py = positions[i * 3 + 1];
+      const pz = positions[i * 3 + 2];
+
+      // 簡易カリング：マウスから遠すぎるZ座標の点は計算スキップ（最適化）
+      if (Math.abs(pz - localMouseZ) > CONNECTION_DISTANCE) continue;
+
+      // 距離の2乗を計算
+      const dx = px - localMouseX;
+      const dy = py - localMouseY;
+      const dz = pz - localMouseZ;
+      const distSq = dx * dx + dy * dy + dz * dz;
+
+      // 範囲内ならラインを結ぶ
+      if (distSq < CONNECTION_DIST_SQ) {
+        // 始点：マウス位置（ローカル）
+        linePositions[vertexIndex++] = localMouseX;
+        linePositions[vertexIndex++] = localMouseY;
+        linePositions[vertexIndex++] = localMouseZ;
+
+        // 終点：パーティクル位置（ローカル）
+        linePositions[vertexIndex++] = px;
+        linePositions[vertexIndex++] = py;
+        linePositions[vertexIndex++] = pz;
+      }
+    }
+
+    // --- D. 描画更新 ---
+    if (lineGeoRef.current) {
+      lineGeoRef.current.attributes.position.needsUpdate = true;
+      // 実際に線がある部分だけを描画するように範囲指定
+      lineGeoRef.current.setDrawRange(0, vertexIndex / 3);
+    }
+  });
+
+  return (
+    <group ref={groupRef} rotation={[0, 0, Math.PI / 4]}>
+      {/* パーティクル本体 */}
+      <Points positions={positions} stride={3} frustumCulled={false}>
+        <PointMaterial
+          transparent
+          color="#06b6d4" // Cyan-500
+          size={0.02}
+          sizeAttenuation={true}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </Points>
+
+      {/* マウスとの接続ライン */}
+      <lineSegments>
+        <bufferGeometry ref={lineGeoRef}>
+          <bufferAttribute
+            attach="attributes-position"
+            count={maxVertexCount}
+            array={linePositions}
+            itemSize={3}
+            usage={THREE.DynamicDrawUsage}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial
+          color="#22d3ee" // Cyan-400
+          transparent
+          opacity={0.5}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </lineSegments>
+    </group>
+  );
+}
+// components/ThreeBackground.tsx の最後の方
+export default function ThreeBackground() {
+  return (
+    // 変更点: "-z-10" を削除し、"z-0" に変更
+    // これにより、親要素の背景に隠れず、マウスイベントを受け取れるようになります
+    <div className="absolute inset-0 z-0 bg-[#0B1120]">
+      <div className="absolute inset-0">
+        <Canvas camera={{ position: [0, 0, 3], fov: 60 }}>
+          <color attach="background" args={['#0B1120']} />
+          <SceneContent />
+        </Canvas>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="types/index.ts">
+export interface Product {
+    id: string;
+    name: string;
+    tagline: string;
+    category: string;
+    thumbnail: string;
+    images: string[];
+    price: string;
+    target: string;
+    features: string[];
+    problemsSolved: string[];
+    techStack: string[];
+    url?: string; // ← これを追加（?は「無くてもOK」の意味）
+}
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="app/contact/page.tsx">
+import { ContactForm } from '@/components/ContactForm';
+import GrainOverlay from '@/components/GrainOverlay';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+export const runtime = "edge";
+
+export default function ContactPage() {
+    return (
+        <div className="min-h-screen bg-[#f4f4f4] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white">
+            <GrainOverlay />
+            <Header />
+
+            <main className="pt-32 pb-20 px-4 sm:px-8 max-w-3xl mx-auto relative z-10">
+                <ContactForm />
+            </main>
+
+            <Footer />
+        </div>
+    );
+}
+</file>
+
+<file path="app/products/[id]/page.tsx">
+'use client';
+
+import { use } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { getProductById } from '@/data/products';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+interface ProductPageProps {
+  params: Promise<{ id: string }>;
+}
+
+// ↓↓↓ この1行がCloudflare Pagesでの動作に必須です ↓↓↓
+export const runtime = "edge";
+
+export default function ProductPage({ params }: ProductPageProps) {
+  // Next.js 15以降の非同期paramsの取得方法
+  const { id } = use(params);
+  const router = useRouter();
+  const product = getProductById(id);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-light mb-4">商品が見つかりません</h1>
+          <Link href="/" className="text-[#1a1a1a]/60 hover:text-[#1a1a1a] transition-colors">
+            ホームに戻る
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative">
+      <Header />
+      
+      {/* Back Button */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        onClick={() => router.back()}
+        className="fixed top-24 left-8 md:left-16 z-40 text-[#1a1a1a]/60 hover:text-[#1a1a1a] transition-colors text-sm md:text-base mix-blend-difference text-white"
+      >
+        ← Back
+      </motion.button>
+
+      {/* Hero Section */}
+      <section className="min-h-[60vh] md:min-h-[80vh] flex items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={product.imageUrl}
+            alt={product.title}
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-16 lg:px-24 w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-white"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <span className="px-3 py-1 text-xs font-medium bg-white/20 backdrop-blur-sm rounded-full">
+                {product.category}
+              </span>
+              <span className="px-3 py-1 text-xs font-medium bg-white/20 backdrop-blur-sm rounded-full">
+                {product.type === 'Subscription' ? 'サブスク' : '買い切り'}
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-light mb-4 md:mb-6">
+              {product.title}
+            </h1>
+            {product.catchphrase && (
+              <p className="text-xl md:text-2xl lg:text-3xl text-white/95 font-light mb-4 md:mb-6 max-w-2xl">
+                {product.catchphrase}
+              </p>
+            )}
+            <p className="text-lg md:text-xl lg:text-2xl text-white/90 font-light max-w-2xl">
+              {product.description}
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="relative bg-[#f4f4f4]">
+        <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 py-16 md:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16">
+            {/* Content Area */}
+            <div className="lg:col-span-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="prose prose-lg max-w-none"
+              >
+                <h2 className="text-2xl md:text-3xl font-light mb-6 text-[#1a1a1a]">
+                  商品について
+                </h2>
+                <div className="space-y-4 text-gray-600 leading-relaxed">
+                  <p>
+                    {product.title}は、モダンなテクノロジーと洗練されたデザインを組み合わせた、高品質なソリューションです。
+                  </p>
+                  <p>
+                    使いやすさと機能性を両立し、日々の業務や生活をより効率的に、そして楽しくすることを目指しています。
+                  </p>
+                  <p>
+                    詳細な機能や使い方については、購入後に提供されるドキュメントをご確認ください。
+                  </p>
+                </div>
+
+                {/* Features */}
+                {product.features && product.features.length > 0 && (
+                  <>
+                    <h2 className="text-2xl md:text-3xl font-light mb-6 mt-12 text-[#1a1a1a]">
+                      主な機能
+                    </h2>
+                    <ul className="space-y-3 text-gray-600 mb-12">
+                      {product.features.map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mr-3 text-[#1a1a1a]">•</span>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+
+                {/* Tech Stack */}
+                {product.techStack && product.techStack.length > 0 && (
+                  <>
+                    <h2 className="text-2xl md:text-3xl font-light mb-6 text-[#1a1a1a]">
+                      技術スタック
+                    </h2>
+                    <div className="flex flex-wrap gap-2 mb-12">
+                      {product.techStack.map((tech, index) => (
+                        <span
+                          key={index}
+                          className="px-4 py-2 text-sm font-medium text-[#1a1a1a] bg-[#1a1a1a]/5 rounded-full border border-[#1a1a1a]/10"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* Fallback Features (if no features provided) */}
+                {(!product.features || product.features.length === 0) && (
+                  <>
+                    <h2 className="text-2xl md:text-3xl font-light mb-6 mt-12 text-[#1a1a1a]">
+                      主な特徴
+                    </h2>
+                    <ul className="space-y-3 text-gray-600">
+                      <li className="flex items-start">
+                        <span className="mr-3">•</span>
+                        <span>直感的で使いやすいインターフェース</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-3">•</span>
+                        <span>高速で安定したパフォーマンス</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-3">•</span>
+                        <span>定期的なアップデートとサポート</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-3">•</span>
+                        <span>充実したドキュメントとチュートリアル</span>
+                      </li>
+                    </ul>
+                  </>
+                )}
+              </motion.div>
+            </div>
+
+            {/* Purchase Area - Sticky */}
+            <div className="lg:col-span-4">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="lg:sticky lg:top-24"
+              >
+                <div className="bg-white border border-[#1a1a1a]/10 rounded-lg p-6 md:p-8 shadow-sm">
+                  <div className="space-y-6">
+                    {/* Price */}
+                    <div>
+                      <p className="text-sm text-gray-600 mb-2">価格</p>
+                      <p className="text-3xl md:text-4xl font-semibold text-[#1a1a1a]">
+                        {product.price}
+                      </p>
+                    </div>
+
+                    {/* Purchase Button */}
+                    <button
+                      onClick={() => {
+                        if (product.checkoutUrl && product.checkoutUrl !== '#') {
+                          window.open(product.checkoutUrl, '_blank');
+                        }
+                      }}
+                      className="w-full py-4 px-6 bg-[#1a1a1a] text-white font-medium rounded-lg hover:bg-[#1a1a1a]/90 transition-colors text-center"
+                    >
+                      {product.price === 'Free Beta' 
+                        ? 'Try Free Beta' 
+                        : product.type === 'Subscription' 
+                        ? 'Subscribe' 
+                        : 'Purchase'}
+                    </button>
+
+                    {/* Additional Info */}
+                    <div className="pt-4 border-t border-[#1a1a1a]/10 space-y-3 text-sm text-gray-600">
+                      <p>• 即座に利用開始可能</p>
+                      <p>• 30日間の返金保証</p>
+                      <p>• サポート付き</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+</file>
+
+<file path="components/AboutSection.tsx">
+'use client';
+
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+
+export default function AboutSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+
+  return (
+    <section
+      ref={ref}
+      className="relative py-32 md:py-48 lg:py-64 px-8 md:px-16 lg:px-24"
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+          {/* Left Column - Section Number */}
+          <motion.div
+            style={{ y, opacity }}
+            className="md:col-span-3"
+          >
+            <h2 className="text-6xl md:text-7xl lg:text-8xl font-light text-[#1a1a1a]/20">
+              01
+            </h2>
+            <p className="text-lg md:text-xl mt-4 text-[#1a1a1a]/60 uppercase tracking-wider">
+              About
+            </p>
+          </motion.div>
+
+          {/* Right Column - Content */}
+          <motion.div
+            style={{ y, opacity }}
+            className="md:col-span-9 space-y-6 md:space-y-8"
+          >
+            <p className="text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-loose text-[#1a1a1a] font-light">
+              こんにちは。Web開発を学んでいる学生です。
+            </p>
+            <p className="text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-loose text-[#1a1a1a] font-light">
+              現在、Next.jsやReactを使ったモダンなWebアプリケーションの開発に取り組んでいます。
+              ユーザー体験を重視した、美しく機能的なインターフェースの構築を目指しています。
+            </p>
+            <p className="text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-loose text-[#1a1a1a] font-light">
+              新しい技術を学ぶこと、そしてそれを実際のプロジェクトに活かすことが、私の情熱の源です。
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="components/ContactForm.tsx">
+'use client';
+
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const contactFormSchema = z.object({
+    name: z.string().min(1, { message: 'お名前を入力してください' }),
+    email: z.string().email({ message: '正しいメールアドレスを入力してください' }),
+    category: z.enum(['開発の相談', '既存システムの改修', 'その他'], {
+        message: 'お問い合わせ内容を選択してください',
+    }),
+    productType: z.enum(
+        ['Webシステム', 'ホームページ', 'LP', 'スマホアプリ', '業務効率化ツール', '未定'],
+        { message: '必要なモノを選択してください' }
+    ),
+    target: z.string().min(1, { message: 'ターゲット層を入力してください' }),
+    issues: z.string().min(1, { message: '現状の課題・悩みを入力してください' }),
+    overview: z.string().min(1, { message: 'プロジェクト概要を入力してください' }),
+    budget: z.enum(
+        ['〜30万円', '30〜100万円', '100〜300万円', '300万円〜', '未定'],
+        { message: 'ご予算感を選択してください' }
+    ),
+    deadline: z.string().optional(),
+    reference: z.string().optional(),
+    source: z.enum(
+        ['Google検索', 'note', 'MENTA', 'X (Twitter)', '知人の紹介', 'その他'],
+        { message: 'きっかけを選択してください' }
+    ),
+    sourceDetails: z.string().optional(),
+    portfolio: z.enum(['可', '不可', '要相談'], {
+        message: '実績公開について選択してください',
+    }),
+}).refine((data) => {
+    if ((data.source === '知人の紹介' || data.source === 'その他') && !data.sourceDetails) {
+        return false;
+    }
+    return true;
+}, {
+    message: '詳細を入力してください',
+    path: ['sourceDetails'],
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+export function ContactForm() {
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm<ContactFormValues>({
+        resolver: zodResolver(contactFormSchema),
+        defaultValues: {
+            deadline: '',
+            reference: '',
+            sourceDetails: '',
+        },
+    });
+
+    const sourceValue = watch('source');
+
+    const onSubmit = async (data: ContactFormValues) => {
+        setIsSubmitting(true);
+        setError(null);
+
+        try {
+            const response = await fetch(process.env.NEXT_PUBLIC_GAS_API_URL || '', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error('送信に失敗しました');
+            }
+
+            setIsSubmitted(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (err) {
+            console.error(err);
+            setError('送信中にエラーが発生しました。時間をおいて再度お試しください。');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    if (isSubmitted) {
+        return (
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-center justify-center min-h-[50vh] text-center"
+            >
+                <h2 className="text-2xl md:text-3xl font-medium mb-4">お問い合わせありがとうございます</h2>
+                <p className="text-[#1a1a1a]/70 text-sm md:text-base leading-relaxed">
+                    内容を確認の上、通常2営業日以内にご連絡させていただきます。<br />
+                    万が一連絡がない場合は、お手数ですが再度お問い合わせください。
+                </p>
+                <a
+                    href="/"
+                    className="mt-8 inline-block border border-[#1a1a1a] px-8 py-3 text-sm hover:bg-[#1a1a1a] hover:text-white transition-colors"
+                >
+                    トップページへ戻る
+                </a>
+            </motion.div>
+        );
+    }
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+        >
+            <h1 className="text-3xl md:text-4xl font-medium mb-12 tracking-tight">Contact</h1>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
+                {error && (
+                    <div className="p-4 bg-red-50 text-red-600 text-sm rounded-sm">
+                        {error}
+                    </div>
+                )}
+
+                {/* Name */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">お名前 <span className="text-red-500">*</span></label>
+                    <input
+                        {...register('name')}
+                        className="w-full bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none"
+                        placeholder="山田 太郎"
+                    />
+                    {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
+                </div>
+
+                {/* Email */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">メールアドレス <span className="text-red-500">*</span></label>
+                    <input
+                        {...register('email')}
+                        type="email"
+                        className="w-full bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none"
+                        placeholder="taro.yamada@example.com"
+                    />
+                    {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
+                </div>
+
+                {/* Category */}
+                <div className="flex flex-col gap-4">
+                    <label className="text-sm font-medium">お問い合わせ内容 <span className="text-red-500">*</span></label>
+                    <div className="flex flex-col gap-3">
+                        {['開発の相談', '既存システムの改修', 'その他'].map((val) => (
+                            <label key={val} className="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    type="radio"
+                                    value={val}
+                                    {...register('category')}
+                                    className="hidden"
+                                />
+                                <div className={`w-4 h-4 rounded-full border border-[#1a1a1a]/40 flex items-center justify-center peer-checked:border-[#1a1a1a] ${watch('category') === val ? 'border-[#1a1a1a]' : ''}`}>
+                                    {watch('category') === val && <div className="w-2 h-2 rounded-full bg-[#1a1a1a]" />}
+                                </div>
+                                <span className="text-sm group-hover:opacity-70 transition-opacity">{val}</span>
+                            </label>
+                        ))}
+                    </div>
+                    {errors.category && <p className="text-red-500 text-xs">{errors.category.message}</p>}
+                </div>
+
+                {/* Product Type */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">必要なモノ <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                        <select
+                            {...register('productType')}
+                            className="w-full appearance-none bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 pr-8 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none cursor-pointer"
+                        >
+                            <option value="" disabled hidden>選択してください</option>
+                            {['Webシステム', 'ホームページ', 'LP', 'スマホアプリ', '業務効率化ツール', '未定'].map((val) => (
+                                <option key={val} value={val}>{val}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[#1a1a1a]/50">▼</div>
+                    </div>
+                    {errors.productType && <p className="text-red-500 text-xs">{errors.productType.message}</p>}
+                </div>
+
+                {/* Target */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium focus:text-[#1a1a1a]">ターゲット層 <span className="text-red-500">*</span></label>
+                    <p className="text-xs text-[#1a1a1a]/60">誰に向けたサービス・システムですか？</p>
+                    <input
+                        {...register('target')}
+                        className="w-full bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none"
+                        placeholder="例: 30代の主婦、現場の建設作業員、社内の経理担当"
+                    />
+                    {errors.target && <p className="text-red-500 text-xs">{errors.target.message}</p>}
+                </div>
+
+                {/* Issues */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">現状の課題・悩み <span className="text-red-500">*</span></label>
+                    <p className="text-xs text-[#1a1a1a]/60">現在どのようなことでお困りですか？</p>
+                    <textarea
+                        {...register('issues')}
+                        rows={4}
+                        className="w-full bg-transparent border border-[#1a1a1a]/20 p-3 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none resize-none"
+                        placeholder="例: 手書きの日報管理が大変、既存サイトからの問い合わせが来ない"
+                    />
+                    {errors.issues && <p className="text-red-500 text-xs">{errors.issues.message}</p>}
+                </div>
+
+                {/* Overview */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">プロジェクト概要 <span className="text-red-500">*</span></label>
+                    <p className="text-xs text-[#1a1a1a]/60">作りたいもののイメージ・概要</p>
+                    <textarea
+                        {...register('overview')}
+                        rows={4}
+                        className="w-full bg-transparent border border-[#1a1a1a]/20 p-3 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none resize-none"
+                        placeholder="例: スマホで完結する日報アプリを作りたい"
+                    />
+                    {errors.overview && <p className="text-red-500 text-xs">{errors.overview.message}</p>}
+                </div>
+
+                {/* Budget */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">ご予算感 <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                        <select
+                            {...register('budget')}
+                            className="w-full appearance-none bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 pr-8 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none cursor-pointer"
+                        >
+                            <option value="" disabled hidden>選択してください</option>
+                            {['〜30万円', '30〜100万円', '100〜300万円', '300万円〜', '未定'].map((val) => (
+                                <option key={val} value={val}>{val}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[#1a1a1a]/50">▼</div>
+                    </div>
+                    {errors.budget && <p className="text-red-500 text-xs">{errors.budget.message}</p>}
+                </div>
+
+                {/* Deadline */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">希望納期 <span className="text-[#1a1a1a]/40 text-xs ml-1">(任意)</span></label>
+                    <input
+                        {...register('deadline')}
+                        className="w-full bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none"
+                        placeholder="例: 2024年10月頃"
+                    />
+                </div>
+
+                {/* Reference */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">参考URL <span className="text-[#1a1a1a]/40 text-xs ml-1">(任意)</span></label>
+                    <input
+                        {...register('reference')}
+                        className="w-full bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none"
+                        placeholder="https://example.com のようなデザイン"
+                    />
+                </div>
+
+                {/* Source */}
+                <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">きっかけ <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                        <select
+                            {...register('source')}
+                            className="w-full appearance-none bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 pr-8 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none cursor-pointer"
+                        >
+                            <option value="" disabled hidden>選択してください</option>
+                            {['Google検索', 'note', 'MENTA', 'X (Twitter)', '知人の紹介', 'その他'].map((val) => (
+                                <option key={val} value={val}>{val}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[#1a1a1a]/50">▼</div>
+                    </div>
+                    {errors.source && <p className="text-red-500 text-xs">{errors.source.message}</p>}
+                </div>
+
+                {/* Source Details (Conditional) */}
+                {(sourceValue === '知人の紹介' || sourceValue === 'その他') && (
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium">
+                            {sourceValue === '知人の紹介' ? '差し支えなければ、紹介者様のお名前を教えてください' : '詳細を教えてください'}
+                            <span className="text-red-500"> *</span>
+                        </label>
+                        <input
+                            {...register('sourceDetails')}
+                            className="w-full bg-transparent border-b border-[#1a1a1a]/20 py-3 px-1 focus:outline-none focus:border-[#1a1a1a] transition-colors rounded-none"
+                            placeholder=""
+                        />
+                        {errors.sourceDetails && <p className="text-red-500 text-xs">{errors.sourceDetails.message}</p>}
+                    </div>
+                )}
+
+                {/* Portfolio */}
+                <div className="flex flex-col gap-4">
+                    <label className="text-sm font-medium">制作実績としてポートフォリオへの掲載は可能ですか？ <span className="text-red-500">*</span></label>
+                    <div className="flex flex-col gap-3">
+                        {['可', '不可', '要相談'].map((val) => (
+                            <label key={val} className="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    type="radio"
+                                    value={val}
+                                    {...register('portfolio')}
+                                    className="hidden"
+                                />
+                                <div className={`w-4 h-4 rounded-full border border-[#1a1a1a]/40 flex items-center justify-center peer-checked:border-[#1a1a1a] ${watch('portfolio') === val ? 'border-[#1a1a1a]' : ''}`}>
+                                    {watch('portfolio') === val && <div className="w-2 h-2 rounded-full bg-[#1a1a1a]" />}
+                                </div>
+                                <span className="text-sm group-hover:opacity-70 transition-opacity">{val}</span>
+                            </label>
+                        ))}
+                    </div>
+                    {errors.portfolio && <p className="text-red-500 text-xs">{errors.portfolio.message}</p>}
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-8 flex justify-center">
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full md:w-auto px-12 py-4 bg-[#1a1a1a] text-white font-medium hover:bg-[#333] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm tracking-wide"
+                    >
+                        {isSubmitting ? '送信中...' : '送信する'}
+                    </button>
+                </div>
+            </form>
+        </motion.div>
+    );
+}
+</file>
+
+<file path="components/CustomCursor.tsx">
+'use client';
+
+import { useEffect, useState } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+
+export default function CustomCursor() {
+  const [isHovering, setIsHovering] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+
+  const springConfig = { damping: 25, stiffness: 700 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
+  useEffect(() => {
+    // デスクトップのみ表示（メディアクエリ）
+    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+    
+    const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsVisible(e.matches);
+    };
+
+    handleMediaChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    // マウス位置の追跡
+    const handleMouseMove = (e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    };
+
+    // リンクやボタンにホバーしているかチェック
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === 'A' ||
+        target.tagName === 'BUTTON' ||
+        target.closest('a') ||
+        target.closest('button')
+      ) {
+        setIsHovering(true);
+      } else {
+        setIsHovering(false);
+      }
+    };
+
+    // マウスが画面外に出たとき
+    const handleMouseLeave = () => {
+      setIsVisible(false);
+    };
+
+    const handleMouseEnter = () => {
+      if (mediaQuery.matches) {
+        setIsVisible(true);
+      }
+    };
+
+    if (mediaQuery.matches) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseover', handleMouseOver);
+      document.addEventListener('mouseleave', handleMouseLeave);
+      document.addEventListener('mouseenter', handleMouseEnter);
+    }
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaChange);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseenter', handleMouseEnter);
+    };
+  }, [cursorX, cursorY]);
+
+  if (!isVisible) return null;
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 pointer-events-none z-[10000] hidden lg:block"
+      style={{
+        x: cursorXSpring,
+        y: cursorYSpring,
+        translateX: '-50%',
+        translateY: '-50%',
+      }}
+    >
+      <motion.div
+        className="rounded-full border border-[#1a1a1a] bg-transparent"
+        animate={{
+          width: isHovering ? 40 : 20,
+          height: isHovering ? 40 : 20,
+          backgroundColor: isHovering ? '#1a1a1a' : 'transparent',
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 500,
+          damping: 28,
+        }}
+      />
+    </motion.div>
+  );
+}
+</file>
+
+<file path="components/GrainOverlay.tsx">
+'use client';
+
+export default function GrainOverlay() {
+  return (
+    <div
+      className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.05] grain-overlay"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'repeat',
+      }}
+    />
+  );
+}
+</file>
+
+<file path="components/HeroSection.tsx">
+'use client';
+
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+
+interface HeroSectionProps {
+  isMenuOpen: boolean;
+  setIsMenuOpen: (open: boolean) => void;
+}
+
+export default function HeroSection({ isMenuOpen, setIsMenuOpen }: HeroSectionProps) {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center px-8 md:px-16 lg:px-24">
+      {/* Logo - Top Left */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="absolute top-8 left-8 md:left-16 lg:left-24 z-20"
+      >
+        <h1 className="text-2xl md:text-3xl font-medium tracking-tight">Portfolio</h1>
+      </motion.div>
+
+      {/* Hamburger Menu - Top Right */}
+      <motion.button
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className="absolute top-8 right-8 md:right-16 lg:right-24 z-20 flex flex-col gap-1.5 p-2"
+        aria-label="Menu"
+      >
+        <span className={`w-6 h-0.5 bg-[#1a1a1a] transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+        <span className={`w-6 h-0.5 bg-[#1a1a1a] transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`} />
+        <span className={`w-6 h-0.5 bg-[#1a1a1a] transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+      </motion.button>
+
+      {/* Main Content - Center/Left Bottom */}
+      <div className="w-full max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-start md:items-center lg:items-start"
+        >
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-4 md:mb-6">
+            Your Name
+          </h2>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="text-xl md:text-2xl lg:text-3xl text-[#1a1a1a]/70 font-light"
+          >
+            Aspiring Web Developer
+          </motion.p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="components/Works.tsx">
+'use client';
+
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import Image from 'next/image';
+
+interface ProjectCardProps {
+  title: string;
+  category: string;
+  index: number;
+  imageUrl: string;
+  bgColor: string;
+}
+
+function ProjectCard({ title, category, index, imageUrl, bgColor }: ProjectCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className="mb-12 md:mb-16 last:mb-0"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Image */}
+      <motion.div
+        className="relative overflow-hidden rounded-sm mb-4 md:mb-6"
+        style={{ aspectRatio: '16/9', backgroundColor: bgColor }}
+        animate={{
+          scale: isHovered ? 1.05 : 1,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 300,
+          damping: 30,
+        }}
+      >
+        <motion.div
+          className="w-full h-full"
+          animate={{
+            filter: isHovered ? 'brightness(1.1)' : 'brightness(1)',
+          }}
+          transition={{
+            duration: 0.3,
+          }}
+        >
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* Title and Category */}
+      <div>
+        <h3 className="text-xl md:text-2xl font-light mb-2 text-[#1a1a1a]">
+          {title}
+        </h3>
+        <p className="text-sm md:text-base text-[#1a1a1a]/60 uppercase tracking-wider">
+          {category}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function Works() {
+  const projects = [
+    {
+      title: 'Project Name 01',
+      category: 'Web Design / Development',
+      imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+      bgColor: '#e8e8e8', // 薄いグレー
+    },
+    {
+      title: 'Project Name 02',
+      category: 'UI/UX Design',
+      imageUrl: 'https://images.unsplash.com/photo-1634128221889-82ed6efebfc3?auto=format&fit=crop&w=800&q=80',
+      bgColor: '#e0e4e8', // 薄い青グレー
+    },
+    {
+      title: 'Project Name 03',
+      category: 'Frontend Development',
+      imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+      bgColor: '#e8e4e0', // ベージュグレー
+    },
+  ];
+
+  return (
+    <section id="works" className="min-h-screen py-32 md:py-48 lg:py-64 px-8 md:px-16 lg:px-24 flex items-center">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+          {/* Left Column - Label */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="md:col-span-3"
+          >
+            <p className="text-sm md:text-base text-[#1a1a1a]/60 uppercase tracking-wider">
+              02 / WORKS
+            </p>
+          </motion.div>
+
+          {/* Right Column - Projects */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="md:col-span-9"
+          >
+            {projects.map((project, index) => (
+              <ProjectCard
+                key={index}
+                title={project.title}
+                category={project.category}
+                index={index}
+                imageUrl={project.imageUrl}
+                bgColor={project.bgColor}
+              />
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="components/WorksSection.tsx">
+'use client';
+
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
+
+interface ProjectCardProps {
+  title: string;
+  category: string;
+  index: number;
+}
+
+function ProjectCard({ title, category, index }: ProjectCardProps) {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group cursor-pointer"
+    >
+      <div className="relative overflow-hidden bg-[#e0e0e0] aspect-[4/3] rounded-sm">
+        {/* Placeholder Image */}
+        <motion.div
+          animate={{
+            scale: isHovered ? 1.1 : 1,
+            x: isHovered ? (mousePosition.x - 200) * 0.05 : 0,
+            y: isHovered ? (mousePosition.y - 150) * 0.05 : 0,
+          }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          className="w-full h-full flex items-center justify-center"
+        >
+          <div className="text-[#1a1a1a]/30 text-4xl font-light">Image</div>
+        </motion.div>
+      </div>
+      <div className="mt-4 md:mt-6">
+        <h3 className="text-xl md:text-2xl font-light mb-2">{title}</h3>
+        <p className="text-sm md:text-base text-[#1a1a1a]/60 uppercase tracking-wider">
+          {category}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function WorksSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+
+  const projects = [
+    { title: 'Project One', category: 'Web Development' },
+    { title: 'Project Two', category: 'UI/UX Design' },
+    { title: 'Project Three', category: 'Frontend' },
+  ];
+
+  return (
+    <section
+      ref={ref}
+      className="relative py-32 md:py-48 lg:py-64 px-8 md:px-16 lg:px-24"
+    >
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          style={{ opacity }}
+          className="mb-16 md:mb-24"
+        >
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light">
+            Selected Works
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={index}
+              title={project.title}
+              category={project.category}
+              index={index}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+    // Cloudflareの無料プランで必須の設定
+    unoptimized: true,
+  },
+};
+
+export default nextConfig;
+</file>
+
+<file path="README.md">
+# Portfolio Site
+
+A minimal portfolio website built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and Lenis.
+
+## Features
+
+- Smooth scrolling with Lenis
+- Beautiful animations with Framer Motion
+- Minimal design with generous spacing
+- Responsive layout
+- Grain texture overlay for film-like quality
+
+## Getting Started
+
+First, install the dependencies:
+
+```bash
+npm install
+```
+
+Then, run the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Customization
+
+- Update your name and title in `components/HeroSection.tsx`
+- Modify the About section content in `components/AboutSection.tsx`
+- Add your projects in `components/WorksSection.tsx`
+- Update contact information in `components/Footer.tsx`
+</file>
+
+<file path="tailwind.config.ts">
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+    content: [
+        "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+        "./components/**/*.{js,ts,jsx,tsx,mdx}",
+        "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    ],
+    theme: {
+        extend: {
+            colors: {
+                background: "var(--background)",
+                foreground: "var(--foreground)",
+            },
+        },
+    },
+    plugins: [],
+};
+export default config;
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+<file path="app/layout.tsx">
+import type { Metadata } from "next";
+import "./globals.css";
+import GrainOverlay from "@/components/GrainOverlay";
+import SmoothScroll from "@/components/SmoothScroll";
+
+export const metadata: Metadata = {
+  title: "My Portfolio",
+  description: "Portfolio site",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="ja">
+      {/* antialiased: フォントを滑らかにするクラス */}
+      <body className="antialiased">
+        {/* 背景のザラザラ演出 */}
+        <GrainOverlay />
+
+        {/* 滑らかなスクロール演出 */}
+        <SmoothScroll />
+
+        {/* CustomCursor は削除しました */}
+
+        {/* ページの中身 */}
+        {children}
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="components/FAQ.tsx">
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus } from "lucide-react"; // アイコン用
+
+const faqs = [
+    {
+        question: "サーバーやドメインの契約がよくわかりません。",
+        answer: "ご安心ください。面倒なサーバー選定やドメイン取得の代行、あるいはAWS/Vercel等のモダンな環境構築まで、インフラエンジニアの視点で最適な構成を提案・サポートいたします。"
+    },
+    {
+        question: "デザインは決まっていませんが、依頼できますか？",
+        answer: "はい、可能です。ヒアリングを通じてワイヤーフレーム（構成案）を作成し、デザインから実装まで一貫して対応します。テンプレートを活用したコストパフォーマンス重視の制作も承ります。"
+    },
+    {
+        question: "制作後の修正や運用は依頼できますか？",
+        answer: "もちろんです。スポットでの修正依頼はもちろん、月額の保守サポートプランもご用意しています。リリース後の機能追加やセキュリティアップデートもお任せください。"
+    },
+    {
+        question: "遠方ですが依頼できますか？",
+        answer: "はい、完全リモートで全国対応可能です。ZoomやSlack、Discordなどを用いて、対面と変わらないスムーズなコミュニケーションを心がけています。"
+    }
+];
+
+export default function FAQ() {
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+    const toggleFAQ = (index: number) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
+
+    return (
+        <section id="faq" className="py-24 bg-white text-[#1a1a1a]">
+            {/* 
+        【修正ポイント】
+        外枠を他のセクションと同じ max-w-6xl に設定しました。
+        これにより「04 / FAQ」や「Q&A」の開始位置（左端）が、上のセクションとピッタリ揃います。
+      */}
+            <div className="max-w-6xl mx-auto px-4 md:px-8">
+
+                <div className="mb-16">
+                    <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">04 / FAQ</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Q&A</h2>
+                </div>
+
+                {/* 
+          リスト部分は横に長すぎると読みづらいため、ここだけ max-w-4xl で幅を制限しています。
+          左寄せのまま幅を制限しているため、視線移動もスムーズです。
+        */}
+                <div className="max-w-4xl space-y-4">
+                    {faqs.map((faq, index) => (
+                        <div key={index} className="border-b border-gray-100 last:border-0">
+                            <button
+                                onClick={() => toggleFAQ(index)}
+                                className="w-full py-6 flex items-center justify-between text-left group"
+                            >
+                                <span className={`text-lg md:text-xl font-medium transition-colors ${openIndex === index ? "text-cyan-600" : "text-gray-800 group-hover:text-gray-600"}`}>
+                                    {faq.question}
+                                </span>
+                                <span className="ml-4 text-gray-400">
+                                    {openIndex === index ? <Minus size={20} /> : <Plus size={20} />}
+                                </span>
+                            </button>
+
+                            <AnimatePresence>
+                                {openIndex === index && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                                        className="overflow-hidden"
+                                    >
+                                        <p className="pb-8 text-gray-500 leading-relaxed pl-2">
+                                            {faq.answer}
+                                        </p>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+</file>
+
+<file path="components/Process.tsx">
+"use client";
+import { motion } from "framer-motion";
+
+const steps = [
+    { num: "01", title: "ヒアリング", desc: "目的・ターゲット・機能要件を明確化します。", color: "border-cyan-400" },
+    { num: "02", title: "設計・デザイン", desc: "ワイヤーフレーム作成とUIデザインを行います。", color: "border-emerald-400" },
+    { num: "03", title: "開発実装", desc: "Next.js等を用いたモダン環境で高速開発。", color: "border-blue-400" },
+    { num: "04", title: "テスト・確認", desc: "動作検証とブラッシュアップを入念に実施。", color: "border-indigo-400" },
+    { num: "05", title: "公開・運用", desc: "デプロイからその後の保守までサポート。", color: "border-orange-400" },
+];
+
+export default function Process() {
+    return (
+        <section id="process" className="py-24 bg-[#f4f4f4] text-[#1a1a1a]">
+            <div className="max-w-6xl mx-auto px-4 md:px-8">
+                <div className="mb-16">
+                    <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">03 / PROCESS</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Workflow</h2>
+                </div>
+
+                {/* 横スクロール対応のコンテナ */}
+                <div className="overflow-x-auto pb-8 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
+                    <div className="flex gap-6 min-w-max md:min-w-0">
+                        {steps.map((step, index) => (
+                            <motion.div
+                                key={step.num}
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1 }}
+                                className={`w-[260px] md:w-[220px] h-[280px] p-6 bg-white rounded-xl shadow-sm border-t-4 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300 ${step.color}`}
+                            >
+                                <div>
+                                    <div className="text-4xl font-black text-gray-100 mb-4">{step.num}</div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-3">{step.title}</h3>
+                                    <p className="text-sm text-gray-600 leading-relaxed">
+                                        {step.desc}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+</file>
+
+<file path="components/Services.tsx">
+"use client";
+import { motion } from "framer-motion";
+
+const plans = [
+  {
+    type: "LP制作",
+    name: "Light Plan",
+    price: "¥80,000~",
+    period: "納期目安: 2週間~",
+    desc: "広告用、宣伝、名刺代わり",
+    features: ["レスポンシブ対応", "お問い合わせフォーム", "SNS連携", "Google Analytics設定"]
+  },
+  {
+    type: "HP制作",
+    name: "Standard Plan",
+    price: "¥250,000~",
+    period: "納期目安: 1ヶ月~",
+    desc: "店舗HP・コーポレート・更新代行付き",
+    features: ["CMS導入 (記事更新機能)", "SEO内部対策", "独自ドメイン設定", "1ヶ月間の修正サポート"],
+    highlight: true // これをtrueにすると少し強調されます（お好みで外してもOK）
+  },
+  {
+    type: "システム開発",
+    name: "Business Plan",
+    price: "¥600,000~",
+    desc: "業務システム開発、独自のWebサービス希望実装",
+    features: ["要件定義・DB設計", "ユーザー認証機能", "管理画面構築", "外部API連携"]
+  }
+];
+
+export default function Services() {
+  return (
+    <section id="services" className="py-24 bg-white text-[#1a1a1a]">
+      <div className="max-w-6xl mx-auto px-4 md:px-8">
+
+        {/* ヘッダー */}
+        <div className="mb-16">
+          <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">02 / SERVICES</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Pricing Plans</h2>
+        </div>
+
+        {/* 3つのプランカード */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className={`p-8 rounded-2xl border flex flex-col h-full ${plan.highlight
+                ? "bg-gray-50 border-gray-200 shadow-lg relative overflow-hidden"
+                : "bg-white border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                }`}
+            >
+              <div className="text-xs font-bold text-cyan-600 mb-2">{plan.type}</div>
+              <h3 className="text-2xl font-bold mb-4">{plan.name}</h3>
+              <div className="text-3xl md:text-4xl font-bold mb-2 text-gray-900 tracking-tight">{plan.price}</div>
+              <p className="text-sm text-gray-500 mb-6">{plan.period}</p>
+
+              <p className="text-gray-700 font-medium mb-8 border-b border-gray-100 pb-4 min-h-[3rem]">
+                {plan.desc}
+              </p>
+
+              <ul className="space-y-3 mt-auto">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start text-sm text-gray-600">
+                    <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full mr-3 mt-1.5 shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* 月額保守サポートの帯 */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="bg-[#1a1a1a] text-white rounded-2xl p-8 md:px-10 md:py-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xl"
+        >
+          <div>
+            <h3 className="text-xl md:text-2xl font-bold mb-2">
+              月額保守サポート (Monthly Support)
+            </h3>
+            <p className="text-gray-400 text-sm md:text-base">
+              サーバー管理、セキュリティ監視、LINEでの更新依頼対応
+            </p>
+          </div>
+          <div className="text-2xl md:text-3xl font-bold whitespace-nowrap text-right">
+            ¥5,000 ~ ¥10,000
+          </div>
+        </motion.div>
+
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="components/SmoothScroll.tsx">
+"use client";
+
+import { useEffect } from "react";
+import Lenis from "lenis";
+
+export default function SmoothScroll() {
+  useEffect(() => {
+    // オプションを極限まで減らして、エラーの原因を排除しました
+    const lenis = new Lenis({
+      duration: 0.8,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      infinite: false,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
+  return null;
+}
+</file>
+
+<file path="components/Strengths.tsx">
+'use client';
+
+import { motion } from 'framer-motion';
+
+export default function Strengths() {
+    const strengths = [
+        {
+            title: '圧倒的な開発スピード (Speed)',
+            description: '最新の開発技術採用。一般的な制作会社の約1/3の納期で、ビジネスの立ち上げを加速させます。',
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+            ),
+        },
+        {
+            title: 'インフラのプロによる安全性 (Security)',
+            description: '代表は現役のインフラエンジニア。「作って終わり」ではなく、セキュリティや負荷対策など、見えない部分の品質を保証します。',
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+            ),
+        },
+        {
+            title: '「丸投げ」できる運用サポート (Support)',
+            description: '面倒な管理画面操作は不要。LINE一本で更新依頼が可能です。ドメイン・サーバー管理も全てお任せいただけます。',
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+            ),
+        },
+    ];
+
+    return (
+        <section id="about" className="py-20 md:py-32 bg-white px-8 md:px-16 lg:px-24">
+            <div className="max-w-7xl mx-auto">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-12 md:mb-16 text-center"
+                >
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-6">
+                        Why Choose Me?
+                    </h2>
+                    <p className="text-[#1a1a1a]/60">選ばれる3つの理由</p>
+                </motion.div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                    {strengths.map((item, index) => (
+                        <motion.div
+                            key={item.title}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: index * 0.1 }}
+                            className="flex flex-col items-center text-center p-6"
+                        >
+                            <div className="w-16 h-16 bg-[#1a1a1a] text-white rounded-full flex items-center justify-center mb-6">
+                                {item.icon}
+                            </div>
+                            <h3 className="text-xl font-bold mb-4 text-[#1a1a1a]">
+                                <span className="text-[#1a1a1a]/60 text-sm block mb-1">0{index + 1}.</span>
+                                {item.title}
+                            </h3>
+                            <p className="text-gray-600 leading-relaxed">
+                                {item.description}
+                            </p>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+</file>
+
+<file path="postcss.config.mjs">
+/** @type {import('postcss-load-config').Config} */
+const config = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="app/page.tsx">
+'use client';
+
+import Header from '@/components/Header';
+// import Hero from '@/components/Hero'; // 旧Heroは使用しないためコメントアウト
+import ThreeBackground from '@/components/ThreeBackground'; // 作成した3D背景をインポート
+import Strengths from '@/components/Strengths';
+import About from '@/components/About';
+import Services from '@/components/Services';
+import Process from '@/components/Process';
+import FAQ from '@/components/FAQ';
+import Market from '@/components/Market';
+import Footer from '@/components/Footer';
+import { motion } from 'framer-motion'; // アニメーション用にFramer Motionを使用（任意）
+
+export default function Home() {
+  return (
+    <main className="relative">
+      {/* ヘッダーはそのまま表示 */}
+      <Header />
+
+      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden select-none">
+
+        {/* 背景: z-0 になったのでここに配置 */}
+        <ThreeBackground />
+
+        {/* グラデーション: 文字が見やすいように */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[#f4f4f4] pointer-events-none z-10" />
+
+        {/* コンテンツ: z-20 に上げて確実にクリック可能にする */}
+        <div className="relative z-20 text-center px-4 max-w-5xl mx-auto">
+
+          {/* キャッチコピー上部のアクセント */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-cyan-400 font-bold tracking-[0.2em] mb-6 text-sm md:text-base"
+          >
+            INFRASTRUCTURE & DEVELOPMENT
+          </motion.p>
+
+          {/* メインタイトル */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-8 leading-tight drop-shadow-lg"
+          >
+            インフラのプロが作る、<br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+              止まらない・速い
+            </span>
+            <br />
+            柔軟なWeb構築
+          </motion.h1>
+
+          {/* サブテキスト */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-gray-200 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md"
+          >
+            現役インフラエンジニアによる『高速開発』×『安定運用』。<br />
+            モダンな技術選定で、あなたのビジネスの立ち上げを加速させます。
+          </motion.p>
+
+          {/* アクションボタン */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          >
+            <a
+              href="#contact"
+              className="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-full transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(34,211,238,0.5)]"
+            >
+              お問い合わせ
+            </a>
+            <a
+              href="#market"
+              className="px-8 py-4 border border-white/30 hover:bg-white/10 text-white font-medium rounded-full transition-all backdrop-blur-sm"
+            >
+              プロダクトを見る
+            </a>
+          </motion.div>
+        </div>
+
+        {/* スクロールダウンのヒント */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 animate-bounce z-20"
+        >
+          <span className="text-xs tracking-widest">SCROLL</span>
+        </motion.div>
+      </section>
+      {/* --- Hero End --- */}
+
+      {/* 以降のセクションは白背景（デフォルト）で続く */}
+      <Strengths />
+      <About />
+      <Services />
+      <Process />
+      <FAQ />
+      <Market />
+      <Footer />
+    </main>
+  );
+}
+</file>
+
+<file path="components/Hero.tsx">
+'use client';
+
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+
+export default function Hero() {
+  return (
+    <section id="hero" className="relative h-screen flex items-center justify-center px-8 md:px-16 lg:px-24 overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80"
+          alt="Minimal architecture background"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/60 z-0" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-start md:items-center lg:items-start"
+        >
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 md:mb-8 text-white leading-tight">
+            インフラのプロが作る、
+            <br className="md:hidden" />
+            止まらない・速い・柔軟なWeb構築
+          </h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="text-lg md:text-xl lg:text-2xl text-white/90 font-light"
+          >
+            現役インフラエンジニアによる『高速開発』×『安定運用』
+          </motion.p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="data/products.ts">
+import { Product } from "@/types";
+
+export const products: Product[] = [
+  // ... 他のプロダクトがあればそのまま ...
+
+  {
+    id: "sales-pin",
+    name: "Sales Pin",
+    // キャッチコピー：概要を短く魅力的に
+    tagline: "フィールドセールスの活動を「地図」で可視化。\n訪問状況や顧客情報をリアルタイムに共有するSaaS。",
+    category: "SaaS / App",
+    // サムネイルは地図画面（一番機能がわかるため）
+    thumbnail: "/images/sales-pin/02_map.png",
+    // スライド用画像（4枚）
+    images: [
+      "/images/sales-pin/02_map.png",    // 1. 地図（メイン）
+      "/images/sales-pin/03_detail.png", // 2. 顧客詳細
+      "/images/sales-pin/04_list.png",   // 3. 履歴一覧
+      "/images/sales-pin/01_login.png",  // 4. ログイン
+    ],
+    price: "Ask", // デモ公開中なので
+    target: "企業向け (外回り営業チーム)",
+    features: [
+      "地図ベースの顧客管理 & ステータス色分け",
+      "チーム内でのリアルタイム訪問状況共有",
+      "活動量や対応件数を可視化するダッシュボード",
+      "現場から即時入力・閲覧可能なモバイル対応",
+    ],
+    problemsSolved: [
+      "訪問バッティングや引き継ぎ漏れの防止",
+      "ブラックボックス化しがちな営業活動の可視化",
+      "日報作成・管理コストの削減",
+    ],
+    techStack: ["Next.js", "TypeScript", "Supabase", "Google Maps API"],
+    // デモURL
+    url: "https://sales-pin-web.vercel.app/login",
+  },
+
+  // ... Sales Pinのデータの後にカンマ(,)を打ってから追加 ...
+
+  {
+    id: "mymix",
+    name: "MYMIX",
+    // キャッチコピー
+    tagline: "在庫状況から「最高の一台」をAIが調合。\nシーシャ店舗のためのフレーバー提案・在庫管理システム。",
+    category: "Web App / Tool",
+    // サムネイル
+    thumbnail: "/images/mymix/01_top.png",
+    // スライド用画像
+    images: [
+      "/images/mymix/01_top.png",    // 1. トップ (ユーザー画面)
+      "/images/mymix/02_result.png", // 2. 提案結果 (ユーザー画面)
+      "/images/mymix/03_stock.png",  // 3. 在庫管理 (管理画面)
+      "/images/mymix/04_regist.png", // 4. 商品登録 (管理画面)
+    ],
+    price: "Ask for Price", // 店舗向けSaaSのため要問い合わせ等の表記
+    target: "シーシャ店舗オーナー、スタッフ",
+    features: [
+      "店舗在庫とリアルタイム連動し、欠品を除外したメニュー提案",
+      "「甘め・スパイシー」等の好みからAIが最適配合を算出",
+      "スタッフの熟練度に依存しない、均質な接客品質の提供",
+      "PC・スマホ対応のレスポンシブデザイン",
+    ],
+    problemsSolved: [
+      "オーダー後の「品切れです」という顧客体験の悪化を防ぐ",
+      "新人スタッフでもベテラン並みのミックス提案が可能に",
+      "フレーバーの在庫管理コストの削減",
+    ],
+    // ※技術スタックは仮定です。実際のものに合わせて修正してください
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
+    // URL
+    url: "https://shisha-mix.latent-ops.xyz/",
+  },
+
+  // ... MYMIXのデータの後にカンマ(,)を打ってから追加 ...
+
+  {
+    id: "shisha-manager",
+    name: "Shisha Manager",
+    // キャッチコピー
+    tagline: "炭交換のタイミングを完全可視化。\n機会損失を防ぐ、シーシャ店特化型オペレーション管理SaaS。",
+    category: "SaaS / Tool",
+    // サムネイル（ダッシュボード画面が機能性を一番表しているため採用）
+    thumbnail: "/images/shisha-manager/02_dashboard.png",
+    // スライド用画像
+    images: [
+      "/images/shisha-manager/01_top.png",       // 1. トップ画面
+      "/images/shisha-manager/02_dashboard.png", // 2. スタッフダッシュボード
+      "/images/shisha-manager/03_settings.png",  // 3. 詳細設定
+      "/images/shisha-manager/04_qr.png",        // 4. QRコード発行
+    ],
+    price: "Ask for Price",
+    target: "シーシャ店舗オーナー、スタッフ",
+    features: [
+      "各テーブルの炭交換経過時間と回数を一覧で可視化",
+      "QRオーダー連携により、顧客のスマホから交換依頼が可能",
+      "経過時間に応じたアラート機能（黄色・赤色点滅）",
+      "店舗ごとのテーブル設定・QRコード自動発行機能",
+    ],
+    problemsSolved: [
+      "炭交換の遅れによる「味の劣化」や顧客満足度低下の防止",
+      "スタッフの巡回コスト削減とオペレーション漏れ回避",
+      "ピークタイムでも均質なサービス品質を維持",
+    ],
+    // 技術スタック（これまでの傾向から推測しています。必要に応じて変更してください）
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
+    // URL
+    url: "https://shisha-charcoal-change.latent-ops.xyz",
+  },
+  // ... 他のダミーデータ（TaskFlow Proなど）は残しておいてOK ...
+];
+</file>
+
+<file path="app/globals.css">
+/* 1行目にフォント読み込み */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+
+/* ↓↓↓ この3行がないとデザインが全て崩れます！ ↓↓↓ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 変数定義 */
+:root {
+  --background: #f4f4f4;
+  --foreground: #1a1a1a;
+  --font-main: 'Inter', 'Noto Sans JP', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  /* ヘッダーの高さ分 */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  font-family: var(--font-main);
+}
+
+/* Grain animation */
+@keyframes grain {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  10% {
+    transform: translate(-5%, -10%);
+  }
+
+  20% {
+    transform: translate(-15%, 5%);
+  }
+
+  30% {
+    transform: translate(7%, -25%);
+  }
+
+  40% {
+    transform: translate(-5%, 25%);
+  }
+
+  50% {
+    transform: translate(-15%, 10%);
+  }
+
+  60% {
+    transform: translate(15%, 0%);
+  }
+
+  70% {
+    transform: translate(0%, 15%);
+  }
+
+  80% {
+    transform: translate(3%, 35%);
+  }
+
+  90% {
+    transform: translate(-10%, 10%);
+  }
+}
+
+.grain-overlay {
+  animation: grain 8s steps(10) infinite;
+}
+</file>
+
+<file path="components/About.tsx">
+"use client";
+import Image from "next/image";
+import { motion } from "framer-motion";
+
+export default function About() {
+  return (
+    <section id="about" className="py-24 bg-[#f4f4f4] text-[#1a1a1a]">
+      <div className="max-w-6xl mx-auto px-4 md:px-8">
+        <motion.span
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="block text-sm font-bold text-gray-400 tracking-widest mb-12"
+        >
+          01 / ABOUT
+        </motion.span>
+
+        <div className="flex flex-col md:flex-row gap-12 items-center">
+          {/* 左側：画像エリア */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="w-full md:w-5/12 aspect-square relative bg-gray-200 rounded-2xl overflow-hidden shadow-xl"
+          >
+            {/* ※public/images/profile.jpg など任意の画像を配置してください */}
+            {/* 画像がない場合は一旦グレーの背景のみ表示されます */}
+            <Image
+              src="/images/profile.png" // 仮のパス
+              alt="Profile"
+              fill
+              className="object-cover"
+              unoptimized
+            />
+          </motion.div>
+
+          {/* 右側：テキストエリア */}
+          <div className="w-full md:w-7/12">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-5xl font-bold leading-tight mb-8"
+            >
+              Designing Speed,<br />
+              Building Trust.
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="space-y-6 text-gray-600 leading-relaxed font-medium"
+            >
+              <p>
+                私は17年にわたるインフラエンジニアとしてのキャリアで培った
+                「堅牢なシステム設計」を土台に、アイデアを最速でプロダクト（形）にするフルスタックエンジニアです。
+              </p>
+              <p>
+                大規模システムの安定稼働を支えてきた経験と、<br />
+                <strong className="text-black bg-yellow-100 px-1">「速さ」と「品質」を両立した開発</strong>を提供します。
+              </p>
+              <p>
+                Webサービス、LP、業務システムからネイティブアプリまで。
+                単にコードを書くだけでなく、あなたのビジネスの成長速度を加速させるパートナーとして、
+                設計から実装、リリース後の改善まで一貫してサポートします。
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="components/Footer.tsx">
+"use client";
+
+export default function Footer() {
+  return (
+    <footer id="contact" className="bg-[#1a1a1a] text-white py-24 px-4 md:px-8">
+      <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
+
+        <h2 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+          Contact
+        </h2>
+
+        <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl">
+          Web制作、システム開発のご相談やお見積もりなど、<br className="hidden md:block" />
+          お気軽にお問い合わせください。
+        </p>
+
+        <a
+          href="mailto:your.email@example.com"
+          className="inline-flex items-center justify-center px-10 py-4 bg-white text-black font-bold text-lg rounded-full hover:bg-gray-200 transition-transform hover:scale-105 mb-20"
+        >
+          お問い合わせはこちら
+        </a>
+
+        {/* フッターリンク類 */}
+        <div className="w-full border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+          <p>&copy; {new Date().getFullYear()} My Portfolio. All Rights Reserved.</p>
+          <div className="flex gap-6">
+            <a href="#" className="hover:text-white transition-colors">Twitter (X)</a>
+            <a href="#" className="hover:text-white transition-colors">GitHub</a>
+            <a href="#" className="hover:text-white transition-colors">Qiita</a>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
+}
+</file>
+
+<file path="components/Market.tsx">
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import { products } from "@/data/products";
+import ProductModal from "@/components/ProductModal";
+import { Product } from "@/types";
+import { motion } from "framer-motion";
+
+export default function Market() {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("All");
+
+  const openModal = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const tabs = ["All", "SaaS", "Tool", "Template", "Mobile App", "Others"];
+
+  const filteredProducts = activeTab === "All"
+    ? products
+    : products.filter(p => p.category.includes(activeTab));
+
+  return (
+    <section id="market" className="py-24 bg-[#f4f4f4] text-[#1a1a1a] font-sans">
+      <div className="max-w-6xl mx-auto px-4 md:px-8">
+
+        {/* ヘッダーエリア */}
+        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">
+              05 / MARKET
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+              Products
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap gap-4 md:gap-6 border-b border-gray-300 pb-1">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`relative text-sm font-medium transition-colors pb-2 -mb-1.5 ${activeTab === tab ? "text-cyan-600" : "text-gray-500 hover:text-gray-800"
+                  }`}
+              >
+                {tab}
+                {activeTab === tab && (
+                  <motion.div
+                    layoutId="underline"
+                    className="absolute left-0 right-0 bottom-0 h-0.5 bg-cyan-600"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 商品グリッド */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map((product) => {
+            // 画像がない場合のフォールバック（プレースホルダー画像）
+            // Next.jsのImageコンポーネントはsrcが空だとエラーになるためここでチェック
+            const imageSrc = product.thumbnail ? product.thumbnail : "https://placehold.co/600x400/e2e8f0/1e293b?text=No+Image";
+
+            return (
+              <motion.div
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                key={product.id}
+                className="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-cyan-100"
+                onClick={() => openModal(product)}
+              >
+                {/* サムネイル */}
+                <div className="aspect-video relative overflow-hidden bg-gray-200">
+                  <Image
+                    src={imageSrc}
+                    alt={product.name || "Product Image"} // altも空だとエラーになるため対策
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    unoptimized // 外部URL(placehold.co)を使う場合やCloudflare用
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                </div>
+
+                {/* カード内容 */}
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="text-xs font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded">
+                      {product.category.split('/')[0].trim()}
+                    </span>
+                    <span className="text-sm font-bold text-gray-900">
+                      {product.price.split(' ')[0]}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-cyan-700 transition-colors">
+                    {product.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                    {product.tagline}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <ProductModal
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="components/MenuOverlay.tsx">
+'use client';
+
+import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect } from 'react';
+
+interface MenuOverlayProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
+  // メニューが開いているときはスクロールを無効化
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  const menuItems = [
+    { label: 'Home', href: '/' },
+    { label: '01 / ABOUT', href: '/#about' },
+    { label: '02 / SERVICES', href: '/#services' },
+    { label: '03 / PROCESS', href: '/#process' },
+    { label: '04 / FAQ', href: '/#faq' },
+    { label: '05 / MARKET', href: '/#market' },
+    { label: 'Contact', href: '/contact' },
+  ];
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Overlay Background */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-[#f4f4f4] z-[9998]"
+            onClick={onClose}
+          />
+
+          {/* Menu Content */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center px-8 md:px-16 lg:px-24"
+          >
+            {/* Close Button - Top Right */}
+            <button
+              onClick={onClose}
+              className="absolute top-8 right-8 md:top-16 md:right-16 text-[#1a1a1a] text-lg md:text-xl font-light hover:opacity-60 transition-opacity"
+            >
+              Close
+            </button>
+
+            {/* Menu Items */}
+            <nav className="flex flex-col items-center gap-4 md:gap-6">
+              {menuItems.map((item, index) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={onClose}
+                    className="text-3xl md:text-4xl lg:text-5xl font-light text-[#1a1a1a] hover:opacity-60 transition-opacity"
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+</file>
+
+<file path="components/Header.tsx">
+'use client';
+
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import MenuOverlay from '@/components/MenuOverlay';
+
+export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 色の決定ロジック
+  // トップページ (/) かつ スクロール前: 白文字
+  // それ以外 (トップページでスクロール後、または別ページ): 黒文字
+  const isTopPage = pathname === '/';
+  const textColorClass = (isTopPage && !isScrolled) ? 'text-white' : 'text-[#1a1a1a]';
+
+  return (
+    <>
+      <header className="fixed top-0 w-full z-50 px-8 md:px-16 lg:px-24 py-6 md:py-8 pointer-events-none">
+        <div className="flex justify-between items-center pointer-events-auto">
+          {/* Logo - Left */}
+          <Link href="/" className="block hover:opacity-80 transition-opacity">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-[#1a1a1a] flex items-center justify-center">
+              <span className="text-white font-mono font-bold text-lg md:text-xl tracking-tighter">{'>_'}</span>
+            </div>
+          </Link>
+
+          {/* Menu Button - Right */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={`${textColorClass} transition-colors duration-300 text-base md:text-lg font-light tracking-wide hover:opacity-80`}
+          >
+            Menu
+          </button>
+        </div>
+      </header>
+      <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+    </>
+  );
+}
+</file>
+
+<file path="package.json">
+{
+  "name": "portfolio-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "pages:build": "npx @cloudflare/next-on-pages"
+  },
+  "dependencies": {
+    "@ai-sdk/react": "^2.0.106",
+    "@hookform/resolvers": "^5.2.2",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
+    "@types/three": "^0.182.0",
+    "framer-motion": "^11.18.2",
+    "lenis": "^1.1.0",
+    "lucide-react": "^0.556.0",
+    "next": "^16.0.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.68.0",
+    "three": "^0.182.0",
+    "youtube-transcript": "^1.2.1",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.22",
+    "eslint": "^9",
+    "eslint-config-next": "^16.0.5",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
+}
+</file>
+
+</files>

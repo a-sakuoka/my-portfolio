@@ -1,207 +1,123 @@
-'use client';
-
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { useState, useMemo } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { products, Product, ProductCategory } from '@/data/products';
-
-type FilterCategory = 'All' | 'SaaS' | 'Tool' | 'Others';
-
-function ProductCard({ product, index }: { product: Product; index: number }) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  /* Wrapper for Link logic */
-  const CardWrapper = ({ children }: { children: React.ReactNode }) => {
-    if (product.linkType === 'external' || product.linkType === 'pdf') {
-      return (
-        <a
-          href={product.targetUrl || '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full h-full"
-        >
-          {children}
-        </a>
-      );
-    }
-    return (
-      <Link href={`/products/${product.id}`} className="block w-full h-full">
-        {children}
-      </Link>
-    );
-  };
-
-  return (
-    <CardWrapper>
-      <motion.div
-        layout
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.4, delay: index * 0.05 }}
-        className="group cursor-pointer"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Image */}
-        <motion.div
-          className="relative overflow-hidden mb-4 rounded-lg"
-          style={{ aspectRatio: '16/9', backgroundColor: '#f0f0f0' }}
-          animate={{
-            scale: isHovered ? 1.02 : 1,
-          }}
-          transition={{
-            type: 'spring',
-            stiffness: 300,
-            damping: 30,
-          }}
-        >
-          <motion.div
-            className="w-full h-full"
-            animate={{
-              filter: isHovered ? 'brightness(1.05)' : 'brightness(1)',
-            }}
-            transition={{
-              duration: 0.3,
-            }}
-          >
-            <Image
-              src={product.imageUrl}
-              alt={product.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </motion.div>
-        </motion.div>
-
-        {/* Content */}
-        <div className="space-y-3">
-          {/* Title */}
-          <h3 className="text-xl md:text-2xl font-medium text-[#1a1a1a] group-hover:text-[#1a1a1a]/80 transition-colors">
-            {product.title}
-          </h3>
-
-          {/* Description */}
-          <p className="text-sm md:text-base text-gray-600 leading-relaxed line-clamp-2">
-            {product.description}
-          </p>
-
-          {/* Problem Solved */}
-          <div className="text-xs md:text-sm text-gray-500 mt-2">
-            <span className="font-semibold text-gray-700 block mb-1">💡 解決した課題</span>
-            {product.problemSolved}
-          </div>
-
-          {/* Badges and Price */}
-          <div className="flex items-center justify-between gap-3">
-            {/* Badges */}
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-2.5 py-1 text-xs font-medium text-[#1a1a1a]/70 bg-[#1a1a1a]/5 rounded-full">
-                {product.category}
-              </span>
-              <span className="px-2.5 py-1 text-xs font-medium text-[#1a1a1a]/70 bg-[#1a1a1a]/5 rounded-full">
-                {product.type === 'Subscription' ? 'サブスク' : '買い切り'}
-              </span>
-            </div>
-
-            {/* Price */}
-            <span className="text-lg md:text-xl font-semibold text-[#1a1a1a] whitespace-nowrap">
-              {product.price}
-            </span>
-          </div>
-        </div>
-      </motion.div>
-    </CardWrapper>
-  );
-}
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import { products } from "@/data/products";
+import ProductModal from "@/components/ProductModal";
+import { Product } from "@/types";
+import { motion } from "framer-motion";
 
 export default function Market() {
-  const [selectedFilter, setSelectedFilter] = useState<FilterCategory>('All');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("All");
 
-  const filterOptions: FilterCategory[] = ['All', 'SaaS', 'Tool', 'Others'];
+  const openModal = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
 
-  const filteredProducts = useMemo(() => {
-    if (selectedFilter === 'All') {
-      return products;
-    }
-    if (selectedFilter === 'Others') {
-      return products.filter(
-        (product) => product.category !== 'SaaS' && product.category !== 'Tool'
-      );
-    }
-    return products.filter((product) => product.category === selectedFilter);
-  }, [selectedFilter]);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const tabs = ["All", "SaaS", "Tool", "Template", "Mobile App", "Others"];
+
+  const filteredProducts = activeTab === "All"
+    ? products
+    : products.filter(p => p.category.includes(activeTab));
 
   return (
-    <section id="market" className="min-h-screen py-32 md:py-48 lg:py-64 px-8 md:px-16 lg:px-24 flex items-center">
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-          {/* Left Column - Label */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="md:col-span-3"
-          >
-            <p className="text-sm md:text-base text-[#1a1a1a]/60 uppercase tracking-wider mb-8 md:mb-0">
-              02 / MARKET
-            </p>
-          </motion.div>
+    <section id="market" className="py-24 bg-[#f4f4f4] text-[#1a1a1a] font-sans">
+      <div className="max-w-6xl mx-auto px-4 md:px-8">
 
-          {/* Right Column - Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="md:col-span-9"
-          >
-            {/* Filter Tabs */}
-            <LayoutGroup>
-              <div className="flex items-center gap-2 mb-8 md:mb-12 flex-wrap">
-                {filterOptions.map((filter) => (
-                  <motion.button
-                    key={filter}
-                    layout
-                    onClick={() => setSelectedFilter(filter)}
-                    className={`relative px-4 py-2 text-sm md:text-base font-medium transition-colors ${selectedFilter === filter
-                      ? 'text-[#1a1a1a]'
-                      : 'text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70'
-                      }`}
-                  >
-                    {filter}
-                    {selectedFilter === filter && (
-                      <motion.div
-                        layoutId="activeFilter"
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1a1a1a]"
-                        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                      />
-                    )}
-                  </motion.button>
-                ))}
-              </div>
-            </LayoutGroup>
+        {/* ヘッダーエリア */}
+        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">
+              05 / MARKET
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+              Products
+            </h2>
+          </div>
 
-            {/* Products Grid */}
-            <AnimatePresence mode="wait">
+          <div className="flex flex-wrap gap-4 md:gap-6 border-b border-gray-300 pb-1">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`relative text-sm font-medium transition-colors pb-2 -mb-1.5 ${activeTab === tab ? "text-cyan-600" : "text-gray-500 hover:text-gray-800"
+                  }`}
+              >
+                {tab}
+                {activeTab === tab && (
+                  <motion.div
+                    layoutId="underline"
+                    className="absolute left-0 right-0 bottom-0 h-0.5 bg-cyan-600"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 商品グリッド */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map((product) => {
+            // 画像がない場合のフォールバック（プレースホルダー画像）
+            // Next.jsのImageコンポーネントはsrcが空だとエラーになるためここでチェック
+            const imageSrc = product.thumbnail ? product.thumbnail : "https://placehold.co/600x400/e2e8f0/1e293b?text=No+Image";
+
+            return (
               <motion.div
-                key={selectedFilter}
+                layout
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+                key={product.id}
+                className="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-cyan-100"
+                onClick={() => openModal(product)}
               >
-                {filteredProducts.map((product, index) => (
-                  <ProductCard key={product.id} product={product} index={index} />
-                ))}
+                {/* サムネイル */}
+                <div className="aspect-video relative overflow-hidden bg-gray-200">
+                  <Image
+                    src={imageSrc}
+                    alt={product.name || "Product Image"} // altも空だとエラーになるため対策
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    unoptimized // 外部URL(placehold.co)を使う場合やCloudflare用
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                </div>
+
+                {/* カード内容 */}
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="text-xs font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded">
+                      {product.category.split('/')[0].trim()}
+                    </span>
+                    <span className="text-sm font-bold text-gray-900">
+                      {product.price.split(' ')[0]}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-cyan-700 transition-colors">
+                    {product.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                    {product.tagline}
+                  </p>
+                </div>
               </motion.div>
-            </AnimatePresence>
-          </motion.div>
+            );
+          })}
         </div>
+
+        <ProductModal
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
       </div>
     </section>
   );

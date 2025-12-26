@@ -1,43 +1,46 @@
-'use client';
+"use client";
+import { motion } from "framer-motion";
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
+const steps = [
+    { num: "01", title: "ヒアリング", desc: "目的・ターゲット・機能要件を明確化します。", color: "border-cyan-400" },
+    { num: "02", title: "設計・デザイン", desc: "ワイヤーフレーム作成とUIデザインを行います。", color: "border-emerald-400" },
+    { num: "03", title: "開発実装", desc: "Next.js等を用いたモダン環境で高速開発。", color: "border-blue-400" },
+    { num: "04", title: "テスト・確認", desc: "動作検証とブラッシュアップを入念に実施。", color: "border-indigo-400" },
+    { num: "05", title: "公開・運用", desc: "デプロイからその後の保守までサポート。", color: "border-orange-400" },
+];
 
 export default function Process() {
     return (
-        <section id="process" className="py-20 md:py-32 bg-[#f4f4f4] px-8 md:px-16 lg:px-24">
-            <div className="max-w-7xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-12 md:mb-16"
-                >
-                    <p className="text-sm md:text-base text-[#1a1a1a]/60 uppercase tracking-wider mb-4">
-                        03 / Process
-                    </p>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a]">
-                        Workflow
-                    </h2>
-                </motion.div>
+        <section id="process" className="py-24 bg-[#f4f4f4] text-[#1a1a1a]">
+            <div className="max-w-6xl mx-auto px-4 md:px-8">
+                <div className="mb-16">
+                    <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">03 / PROCESS</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Workflow</h2>
+                </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="relative w-full h-auto"
-                >
-                    <Image
-                        src="/process-flow.png.jpg"
-                        alt="Service Process Workflow"
-                        width={1200}
-                        height={800}
-                        className="w-full h-auto rounded-xl shadow-lg border border-[#1a1a1a]/5"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-                    />
-                </motion.div>
+                {/* 横スクロール対応のコンテナ */}
+                <div className="overflow-x-auto pb-8 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
+                    <div className="flex gap-6 min-w-max md:min-w-0">
+                        {steps.map((step, index) => (
+                            <motion.div
+                                key={step.num}
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1 }}
+                                className={`w-[260px] md:w-[220px] h-[280px] p-6 bg-white rounded-xl shadow-sm border-t-4 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300 ${step.color}`}
+                            >
+                                <div>
+                                    <div className="text-4xl font-black text-gray-100 mb-4">{step.num}</div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-3">{step.title}</h3>
+                                    <p className="text-sm text-gray-600 leading-relaxed">
+                                        {step.desc}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
     );

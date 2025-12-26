@@ -1,98 +1,74 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import Image from "next/image";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer id="footer" className="bg-[#1a1a1a] text-white py-20 md:py-32 lg:py-40 px-8 md:px-16 lg:px-24">
-      <div className="max-w-7xl mx-auto">
-        {/* Main Content */}
-        <div className="mb-16 md:mb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <Link
-              href="/contact"
-              className="block text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-light mb-6 md:mb-8 hover:opacity-80 transition-opacity"
-            >
-              Contact
-            </Link>
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg md:text-xl lg:text-2xl text-white/70 font-light"
-          >
-            Let's create something together.
-          </motion.p>
+    <footer id="contact" className="bg-[#1a1a1a] text-white py-24 px-4 md:px-8 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto flex flex-col items-center text-center relative z-10">
+
+        <h2 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+          Contact
+        </h2>
+
+        <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl">
+          Web制作、システム開発のご相談やお見積もりなど、<br className="hidden md:block" />
+          お気軽にお問い合わせください。
+        </p>
+
+        <a
+          href="/contact"
+          className="inline-flex items-center justify-center px-10 py-4 bg-white text-black font-bold text-lg rounded-full hover:bg-gray-200 transition-transform hover:scale-105 mb-20"
+        >
+          お問い合わせはこちら
+        </a>
+
+        {/* マカロニさんの演出部分：サイズを大幅アップ */}
+        <div className="flex justify-center mb-16">
+          <div className="relative group cursor-help">
+
+            {/* メッセージ：サイズを text-sm (14px) ~ text-base (16px) にアップ */}
+            <div className="absolute -top-20 left-1/2 -translate-x-1/2 bg-cyan-500 text-black text-sm md:text-base px-6 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 whitespace-nowrap font-bold shadow-[0_10px_25px_rgba(34,211,238,0.4)] z-20">
+              マカロニさんもお待ちしてます！
+              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-cyan-500 rotate-45"></div>
+            </div>
+
+            {/* 丸枠：w-16 (64px) から w-32 (128px) 規模へ拡大 */}
+            <div className="w-28 h-28 md:w-36 md:h-36 bg-white rounded-full p-4 shadow-2xl border-4 border-white/10 group-hover:border-cyan-500 transition-all duration-500 overflow-hidden flex items-center justify-center relative">
+              <Image
+                src="/images/macaroni-logo.png"
+                alt="Macaroni Mouse"
+                width={120} // 画像自体の解像度も高めに指定
+                height={120}
+                className="object-contain transform group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+
+            {/* 背後で少し光らせる演出（より存在感を出すため） */}
+            <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity -z-10"></div>
+          </div>
         </div>
 
-        {/* Sub Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8 pt-8 border-t border-white/10"
-        >
-          {/* Copyright */}
-          <p className="text-sm md:text-base text-white/50">
-            © {currentYear} Jun
-          </p>
-
-          {/* Social Links */}
-          <div className="flex gap-6 md:gap-8">
-            <a
-              href="https://x.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm md:text-base text-white/70 hover:text-white transition-colors"
-            >
-              X
-            </a>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm md:text-base text-white/70 hover:text-white transition-colors"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm md:text-base text-white/70 hover:text-white transition-colors"
-            >
-              Instagram
-            </a>
-            <a
-              href="https://menta.work/user/33588"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm md:text-base text-white/70 hover:text-white transition-colors"
-            >
-              MENTA
-            </a>
-            <a
-              href="https://note.com/yurufwa_se"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm md:text-base text-white/70 hover:text-white transition-colors"
-            >
-              note
-            </a>
+        {/* フッター下部エリア */}
+        <div className="w-full border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs md:text-sm text-gray-500">
+          <div className="flex flex-col md:items-start items-center gap-2">
+            <p>&copy; {new Date().getFullYear()} MACARONI MOUSE / Portfolio.</p>
+            <p className="text-[10px] opacity-50 uppercase tracking-widest text-center md:text-left">
+              Built with Next.js & Edge Runtime
+            </p>
           </div>
-        </motion.div>
+
+          <div className="flex gap-8">
+            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">Twitter (X)</a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">GitHub</a>
+            <a href="https://qiita.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">Qiita</a>
+          </div>
+        </div>
+
       </div>
+
+      {/* 背景の装飾的な要素（オプション） */}
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[100px] -z-0"></div>
     </footer>
   );
 }

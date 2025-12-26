@@ -1,93 +1,84 @@
-'use client';
+"use client";
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus } from "lucide-react"; // アイコン用
 
-const faqList = [
+const faqs = [
     {
-        question: 'サーバーやドメインの契約がよくわかりません。',
-        answer: 'ご安心ください。保守プランにご加入の場合、面倒な契約手続きや設定はすべて代行可能です。',
+        question: "サーバーやドメインの契約がよくわかりません。",
+        answer: "ご安心ください。面倒なサーバー選定やドメイン取得の代行、あるいはAWS/Vercel等のモダンな環境構築まで、インフラエンジニアの視点で最適な構成を提案・サポートいたします。"
     },
     {
-        question: 'デザインは決まっていませんが、依頼できますか？',
-        answer: 'はい、可能です。参考サイトなどをお見せしながら、お客様の好みに合わせたデザインを提案させていただきます。',
+        question: "デザインは決まっていませんが、依頼できますか？",
+        answer: "はい、可能です。ヒアリングを通じてワイヤーフレーム（構成案）を作成し、デザインから実装まで一貫して対応します。テンプレートを活用したコストパフォーマンス重視の制作も承ります。"
     },
     {
-        question: '完成後の修正や更新はお願いできますか？',
-        answer: 'もちろんです。月額保守プランにご加入いただければ、LINEやメールでご連絡いただくだけで原則当日中に対応いたします。',
+        question: "制作後の修正や運用は依頼できますか？",
+        answer: "もちろんです。スポットでの修正依頼はもちろん、月額の保守サポートプランもご用意しています。リリース後の機能追加やセキュリティアップデートもお任せください。"
     },
     {
-        question: '遠方ですが依頼できますか？',
-        answer: 'はい、全国対応可能です。オンラインミーティングでスムーズに進行できます。',
-    },
-    {
-        question: '支払い方法は？',
-        answer: '銀行振込に対応しています。原則として、着手金と納品時の分割払いをお願いしております。',
-    },
+        question: "遠方ですが依頼できますか？",
+        answer: "はい、完全リモートで全国対応可能です。ZoomやSlack、Discordなどを用いて、対面と変わらないスムーズなコミュニケーションを心がけています。"
+    }
 ];
 
 export default function FAQ() {
-    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const toggleFAQ = (index: number) => {
-        setActiveIndex(activeIndex === index ? null : index);
+        setOpenIndex(openIndex === index ? null : index);
     };
 
     return (
-        <section id="faq" className="py-20 md:py-32 bg-white px-8 md:px-16 lg:px-24">
-            <div className="max-w-4xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-12 md:mb-16"
-                >
-                    <p className="text-sm md:text-base text-[#1a1a1a]/60 uppercase tracking-wider mb-4">
-                        04 / FAQ
-                    </p>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a1a1a]">
-                        Q&A
-                    </h2>
-                </motion.div>
+        <section id="faq" className="py-24 bg-white text-[#1a1a1a]">
+            {/* 
+        【修正ポイント】
+        外枠を他のセクションと同じ max-w-6xl に設定しました。
+        これにより「04 / FAQ」や「Q&A」の開始位置（左端）が、上のセクションとピッタリ揃います。
+      */}
+            <div className="max-w-6xl mx-auto px-4 md:px-8">
 
-                <div className="space-y-4">
-                    {faqList.map((item, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: index * 0.05 }}
-                            className="border-b border-[#1a1a1a]/10 pb-4"
-                        >
+                <div className="mb-16">
+                    <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">04 / FAQ</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Q&A</h2>
+                </div>
+
+                {/* 
+          リスト部分は横に長すぎると読みづらいため、ここだけ max-w-4xl で幅を制限しています。
+          左寄せのまま幅を制限しているため、視線移動もスムーズです。
+        */}
+                <div className="max-w-4xl space-y-4">
+                    {faqs.map((faq, index) => (
+                        <div key={index} className="border-b border-gray-100 last:border-0">
                             <button
                                 onClick={() => toggleFAQ(index)}
-                                className="w-full flex justify-between items-center py-4 text-left focus:outline-none group"
+                                className="w-full py-6 flex items-center justify-between text-left group"
                             >
-                                <span className="text-lg md:text-xl font-medium text-[#1a1a1a] group-hover:opacity-70 transition-opacity">
-                                    {item.question}
+                                <span className={`text-lg md:text-xl font-medium transition-colors ${openIndex === index ? "text-cyan-600" : "text-gray-800 group-hover:text-gray-600"}`}>
+                                    {faq.question}
                                 </span>
-                                <span className="ml-4 text-2xl font-light text-[#1a1a1a]">
-                                    {activeIndex === index ? '−' : '＋'}
+                                <span className="ml-4 text-gray-400">
+                                    {openIndex === index ? <Minus size={20} /> : <Plus size={20} />}
                                 </span>
                             </button>
+
                             <AnimatePresence>
-                                {activeIndex === index && (
+                                {openIndex === index && (
                                     <motion.div
                                         initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
+                                        animate={{ height: "auto", opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3 }}
+                                        transition={{ duration: 0.3, ease: "easeInOut" }}
                                         className="overflow-hidden"
                                     >
-                                        <p className="pt-2 pb-6 text-gray-600 leading-relaxed">
-                                            {item.answer}
+                                        <p className="pb-8 text-gray-500 leading-relaxed pl-2">
+                                            {faq.answer}
                                         </p>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>
