@@ -59,9 +59,9 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-8">
-            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">Twitter (X)</a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">GitHub</a>
-            <a href="https://qiita.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">Qiita</a>
+            <a href="https://x.com/SeYurufuwa" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">Twitter (X)</a>
+            <a href="https://note.com/yurufwa_se" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">note</a>
+            <a href="https://menta.work/user/33588" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">MENTA</a>
           </div>
         </div>
 
