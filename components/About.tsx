@@ -12,7 +12,7 @@ export default function About() {
           viewport={{ once: true }}
           className="block text-sm font-bold text-gray-400 tracking-widest mb-12"
         >
-          01 / ABOUT
+          05 / ABOUT
         </motion.span>
 
         <div className="flex flex-col md:flex-row gap-12 items-center">

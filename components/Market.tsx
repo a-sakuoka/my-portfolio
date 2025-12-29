@@ -34,10 +34,10 @@ export default function Market() {
         <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">
-              05 / MARKET
+              01 / MARKET
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-              Products
+              Works
             </h2>
           </div>
 
@@ -92,6 +92,15 @@ export default function Market() {
 
                 {/* カード内容 */}
                 <div className="p-6">
+                  {/* Impact Tag (New) */}
+                  {product.impact && (
+                    <div className="mb-4">
+                      <span className="inline-block bg-gradient-to-r from-yellow-400/20 to-orange-500/20 text-orange-600 text-xs font-bold px-2 py-1 rounded border border-orange-200">
+                        {product.impact}
+                      </span>
+                    </div>
+                  )}
+
                   <div className="flex justify-between items-start mb-2">
                     <span className="text-xs font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded">
                       {product.category.split('/')[0].trim()}

@@ -11,4 +11,5 @@ export interface Product {
     problemsSolved: string[];
     techStack: string[];
     url?: string; // ← これを追加（?は「無くてもOK」の意味）
+    impact?: string; // 導入効果
 }

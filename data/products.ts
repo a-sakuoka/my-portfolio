@@ -28,6 +28,7 @@ export const products: Product[] = [
     ],
     techStack: ["Next.js", "TypeScript", "Supabase", "Google Maps API"],
     url: "https://sales-pin-web.vercel.app/login",
+    impact: "営業活動の可視化で、チームの成約率が向上！"
   },
   {
     id: "mymix",
@@ -56,6 +57,7 @@ export const products: Product[] = [
     ],
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
     url: "https://shisha-mix.latent-ops.xyz/",
+    impact: "AI提案により、新人スタッフでも熟練の接客を実現。"
   },
   {
     id: "shisha-manager",
@@ -84,9 +86,9 @@ export const products: Product[] = [
     ],
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
     url: "https://shisha-charcoal-change.latent-ops.xyz",
+    impact: "交換タイミングを完全管理し、機会損失をゼロに。"
   }
 ];
-
 /**
  * IDからプロダクトを取得するヘルパー関数
  */

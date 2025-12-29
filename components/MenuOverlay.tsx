@@ -24,11 +24,11 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
 
   const menuItems = [
     { label: 'Home', href: '/' },
-    { label: '01 / ABOUT', href: '/#about' },
+    { label: '01 / MARKET', href: '/#market' },
     { label: '02 / SERVICES', href: '/#services' },
     { label: '03 / PROCESS', href: '/#process' },
     { label: '04 / FAQ', href: '/#faq' },
-    { label: '05 / MARKET', href: '/#market' },
+    { label: '05 / ABOUT', href: '/#about' },
     { label: 'Contact', href: '/contact' },
   ];
 
