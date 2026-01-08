@@ -14,7 +14,7 @@ const plans = [
   {
     type: "HP制作",
     name: "Standard Plan",
-    price: "¥250,000~", // 正規価格に戻しました
+    price: "¥200,000~", // 正規価格に戻しました
     // monitorPrice: "¥148,000~",
     period: "納期目安: 1ヶ月~",
     desc: "店舗HP・コーポレートサイト。ブログ機能付きで資産になるサイトを作ります。",

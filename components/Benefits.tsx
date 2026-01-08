@@ -44,7 +44,7 @@ export default function Benefits() {
                         今だけの<span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">3大特典</span>
                     </h2>
                     <p className="text-gray-400 max-w-2xl mx-auto">
-                        モニター価格でのご提供に加え、ビジネスの成功を後押しする特別な特典をご用意しました。
+                        ご提供に加え、ビジネスの成功を後押しする特別な特典をご用意しました。
                     </p>
                 </motion.div>
 

@@ -28,17 +28,18 @@ export default function Home() {
 
         <div className="relative z-20 text-center px-4 max-w-5xl mx-auto mt-16">
 
-          {/* Badges */}
+          {/* ▼▼ モニター募集バッジをコメントアウトで非表示に ▼▼ */}
+          {/* 
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col md:flex-row justify-center gap-3 mb-8"
+            className="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs md:text-sm font-bold px-6 py-2 rounded-full mb-6 shadow-lg"
           >
-            <span className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-2 rounded-full text-sm md:text-base font-bold tracking-wider shadow-lg animate-pulse w-fit">
-              先着10社限定 モニター募集中
-            </span>
-          </motion.div>
+            先着10社限定 モニター募集中
+          </motion.div> 
+          */}
+          {/* ▲▲ ここまで ▲▲ */}
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
