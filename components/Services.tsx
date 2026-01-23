@@ -3,35 +3,32 @@ import { motion } from "framer-motion";
 
 const plans = [
   {
-    type: "LP制作",
-    name: "Light Plan",
-    price: "¥80,000~", // 正規価格に戻しました
-    // monitorPrice: "¥49,800~", // 復活させる時用のメモ
+    type: "まずはお店を知ってもらいたい方へ",
+    name: "紹介用1ページ制作",
+    price: "¥80,000~",
     period: "納期目安: 2週間~",
-    desc: "広告用、宣伝、名刺代わり。スマホ対応の1枚ページを作成します。",
-    features: ["レスポンス対応", "お問い合わせフォーム", "SNS連携", "Google Analytics設定"]
+    desc: "名刺代わりの1ページ。スマホで見やすく、地図や連絡先を正しく伝えます。",
+    features: ["スマホ対応", "お問い合わせフォーム", "SNS（インスタ等）連携", "アクセス分析設定"]
   },
   {
-    type: "HP制作",
-    name: "Standard Plan",
-    price: "¥200,000~", // 正規価格に戻しました
-    // monitorPrice: "¥148,000~",
+    type: "自分でどんどん情報を発信したい方へ",
+    name: "更新機能付きサイト",
+    price: "¥250,000~",
     period: "納期目安: 1ヶ月~",
-    desc: "店舗HP・コーポレートサイト。ブログ機能付きで資産になるサイトを作ります。",
-    features: ["CMS導入 (記事更新機能)", "SEO内部対策", "独自ドメイン設定", "1ヶ月間の修正サポート"],
+    desc: "ブログやお知らせを自分で更新できるサイト。集客の柱を作りたい方に最適です。",
+    features: ["自分で更新できる機能", "検索で見つかりやすくする対策", "自分専用のドメイン設定", "1ヶ月間の操作サポート"],
     highlight: true,
-    mostPopular: true // "MOST POPULAR"バッジ用
   },
   {
-    type: "システム開発",
-    name: "Business Plan",
-    price: "¥600,000~", // 正規価格に戻しました
-    // monitorPrice: "¥398,000~",
+    type: "業務を自動化してラクをしたい方へ",
+    name: "オーダーメイドシステム",
+    price: "¥600,000~",
     period: "納期目安: 1ヶ月~",
-    desc: "予約システム、マッチングサイト、SaaS開発など、複雑な要件を実現します。",
-    features: ["要件定義・DB設計", "ユーザー認証機能", "管理画面構築", "外部API連携"]
+    desc: "予約管理や在庫管理など、今の「面倒な作業」を自動化する仕組みを作ります。",
+    features: ["お困りごとの聞き取り", "独自の予約・管理機能", "パスワード付き管理画面", "LINEなど他アプリとの連動"]
   }
 ];
+
 
 export default function Services() {
   return (
@@ -40,8 +37,8 @@ export default function Services() {
 
         {/* ヘッダー */}
         <div className="mb-16">
-          <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">02 / SERVICES</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Pricing Plans</h2>
+          <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">02 / 制作料金</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">料金プラン</h2>
         </div>
 
         {/* プランカード */}

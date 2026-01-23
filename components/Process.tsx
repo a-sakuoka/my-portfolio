@@ -2,11 +2,11 @@
 import { motion } from "framer-motion";
 
 const steps = [
-    { num: "01", title: "ヒアリング", desc: "目的・ターゲット・機能要件を明確化します。", color: "border-cyan-400" },
-    { num: "02", title: "設計・デザイン", desc: "ワイヤーフレーム作成とUIデザインを行います。", color: "border-emerald-400" },
-    { num: "03", title: "開発実装", desc: "Next.js等を用いたモダン環境で高速開発。", color: "border-blue-400" },
-    { num: "04", title: "テスト・確認", desc: "動作検証とブラッシュアップを入念に実施。", color: "border-indigo-400" },
-    { num: "05", title: "公開・運用", desc: "デプロイからその後の保守までサポート。", color: "border-orange-400" },
+    { num: "01", title: "お悩み相談", desc: "まずは現状の課題を伺います。ITの知識がなくても大丈夫です。", color: "border-cyan-400" },
+    { num: "02", title: "ご提案・設計", desc: "解決策をわかりやすい図や言葉で丁寧にご説明します。", color: "border-emerald-400" },
+    { num: "03", title: "丁寧な開発", desc: "最新技術を使い、速くて壊れないシステムを構築します。", color: "border-blue-400" },
+    { num: "04", title: "動作チェック", desc: "ミスがないか、使いやすいかを徹底的に検証します。", color: "border-indigo-400" },
+    { num: "05", title: "公開・サポート", desc: "公開後の使い方のレクチャーや保守もお任せください。", color: "border-orange-400" },
 ];
 
 export default function Process() {
@@ -14,8 +14,8 @@ export default function Process() {
         <section id="process" className="py-24 bg-[#f4f4f4] text-[#1a1a1a]">
             <div className="max-w-6xl mx-auto px-4 md:px-8">
                 <div className="mb-16">
-                    <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">03 / PROCESS</span>
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Workflow</h2>
+                    <span className="block text-sm font-bold text-gray-400 tracking-widest mb-4">03 / ご依頼の流れ</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">制作のステップ</h2>
                 </div>
 
                 {/* 横スクロール対応のコンテナ */}

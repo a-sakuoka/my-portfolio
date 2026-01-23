@@ -3,9 +3,9 @@ import { Product } from "@/types";
 export const products: Product[] = [
   {
     id: "sales-pin",
-    name: "Sales Pin",
-    tagline: "フィールドセールスの活動を「地図」で可視化。\n訪問状況や顧客情報をリアルタイムに共有するSaaS。",
-    category: "SaaS / App",
+    name: "セールスピン",
+    tagline: "外回り営業の動きを「地図」で見える化。\n誰がどこにいるか、今日の結果はどうだったかをチームで共有する道具です。",
+    category: "営業管理システム", // SaaS / App から変更
     thumbnail: "/images/sales-pin/02_map.png",
     images: [
       "/images/sales-pin/02_map.png",
@@ -16,10 +16,9 @@ export const products: Product[] = [
     price: "Ask",
     target: "企業向け (外回り営業チーム)",
     features: [
-      "地図ベースの顧客管理 & ステータス色分け",
-      "チーム内でのリアルタイム訪問状況共有",
-      "活動量や対応件数を可視化するダッシュボード",
-      "現場から即時入力・閲覧可能なモバイル対応",
+      "地図上でどこにお客さまがいるか一目でわかる機能",
+      "外からでもスマホですぐに報告を書き込める機能",
+      "チーム全員の動きをリアルタイムで共有",
     ],
     problemsSolved: [
       "訪問バッティングや引き継ぎ漏れの防止",
@@ -32,7 +31,7 @@ export const products: Product[] = [
   },
   {
     id: "mymix",
-    name: "MYMIX",
+    name: "マイミックス",
     tagline: "在庫状況から「最高の一台」をAIが調合。\nシーシャ店舗のためのフレーバー提案・在庫管理システム。",
     category: "Web App / Tool",
     thumbnail: "/images/mymix/01_top.png",
@@ -51,9 +50,8 @@ export const products: Product[] = [
       "PC・スマホ対応のレスポンシブデザイン",
     ],
     problemsSolved: [
-      "オーダー後の「品切れです」という顧客体験の悪化を防ぐ",
-      "新人スタッフでもベテラン並みのミックス提案が可能に",
-      "フレーバーの在庫管理コストの削減",
+      "「あのお客さま、誰が最後に行ったっけ？」という確認の手間をゼロに",
+      "紙の日報をなくし、事務作業の時間を大幅カット",
     ],
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
     url: "https://shisha-mix.latent-ops.xyz/",
@@ -61,7 +59,7 @@ export const products: Product[] = [
   },
   {
     id: "shisha-manager",
-    name: "Shisha Manager",
+    name: "シーシャマネージャー",
     tagline: "炭交換のタイミングを完全可視化。\n機会損失を防ぐ、シーシャ店特化型オペレーション管理SaaS。",
     category: "SaaS / Tool",
     thumbnail: "/images/shisha-manager/02_dashboard.png",
@@ -87,11 +85,11 @@ export const products: Product[] = [
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
     url: "https://shisha-charcoal-change.latent-ops.xyz",
     impact: "交換タイミングを完全管理し、機会損失をゼロに。"
-    
+
   },
   {
     id: "animal-cafe-guide",
-    name: "Fairy Room",
+    name: "妖精のお部屋（キャスト紹介ページ）",
     // キャッチコピー：ハイライトと紹介文を組み合わせて魅力的に
     tagline: "ガチャ要素のある「デジタルおやつ機能」でWeb訪問者の来店動機を創出！\n推しの動物が見つかる！インバウンド対応＆クーポン抽選機能付きのデジタル店舗ガイド。",
     category: "Web App / O2O Tool",
@@ -122,10 +120,9 @@ export const products: Product[] = [
   },
   {
     id: "bar-inventory-manager",
-    name: "Bar Inventory Manager",
-    // キャッチコピー：AIの強みと業務効率化を強調
-    tagline: "AIが「利益の出る」メニューを考案！在庫管理から原価計算までを完全DX化。\n現場の在庫状況と原価率を考慮し、AIが最適なメニュー構成を提案する店舗支援ツール。",
-    category: "SaaS / Tool",
+    name: "バー在庫管理",
+    tagline: "AIが「利益の出る」メニューを提案。\n在庫管理から原価の計算まで、スマホ一つで完結します。",
+    category: "店舗管理システム", // SaaS / Tool から変更
     // サムネイル（ダッシュボード画面）
     thumbnail: "/images/bar-inventory/01_dashboard.png",
     // スライド用画像（4枚構成）
