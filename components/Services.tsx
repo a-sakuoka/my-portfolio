@@ -1,7 +1,19 @@
 "use client";
 import { motion } from "framer-motion";
 
-const plans = [
+// 1. データの型を定義して、optional（あってもなくても良い）項目を指定します
+interface Plan {
+  type: string;
+  name: string;
+  price: string;
+  period: string;
+  desc: string;
+  features: string[];
+  highlight?: boolean;     // ? をつけることでエラーを回避
+  mostPopular?: boolean;   // ? をつけることでエラーを回避
+}
+
+const plans: Plan[] = [
   {
     type: "まずはお店を知ってもらいたい方へ",
     name: "紹介用1ページ制作",
@@ -18,6 +30,7 @@ const plans = [
     desc: "ブログやお知らせを自分で更新できるサイト。集客の柱を作りたい方に最適です。",
     features: ["自分で更新できる機能", "検索で見つかりやすくする対策", "自分専用のドメイン設定", "1ヶ月間の操作サポート"],
     highlight: true,
+    mostPopular: true
   },
   {
     type: "業務を自動化してラクをしたい方へ",
@@ -28,7 +41,6 @@ const plans = [
     features: ["お困りごとの聞き取り", "独自の予約・管理機能", "パスワード付き管理画面", "LINEなど他アプリとの連動"]
   }
 ];
-
 
 export default function Services() {
   return (
@@ -57,40 +69,23 @@ export default function Services() {
             >
               {/* MOST POPULAR バッジ */}
               {plan.mostPopular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyan-600 text-white text-[10px] font-bold px-4 py-1 rounded-full tracking-widest">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-cyan-600 text-white text-[10px] font-bold px-4 py-1 rounded-full tracking-widest z-10">
                   MOST POPULAR
                 </div>
               )}
 
               <div className="text-xs font-bold text-cyan-600 mb-2">{plan.type}</div>
-              <h3 className="text-2xl font-bold mb-4">{plan.name}</h3>
+              <h3 className="text-2xl font-bold mb-4 text-gray-900">{plan.name}</h3>
 
               <div className="mb-4">
-                {/* ▼▼ モニター価格再開時にコメントアウトを解除 ▼▼ */}
+                {/* モニター価格用コメントアウト */}
                 {/* <div className="text-xs text-gray-400 line-through mb-1">通常 {plan.price}</div> */}
-                {/* ▲▲ ここまで ▲▲ */}
 
                 <div className="flex items-center gap-3">
                   <div className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
                     {plan.price}
                   </div>
-
-                  {/* ▼▼ モニター価格再開時にコメントアウトを解除 ▼▼ */}
-                  {/* 
-                  <div className="bg-red-50 text-red-500 text-[10px] font-bold px-2 py-1 rounded">
-                    モニター価格
-                  </div> 
-                  */}
-                  {/* ▲▲ ここまで ▲▲ */}
                 </div>
-
-                {/* ▼▼ モニター価格再開時にコメントアウトを解除 ▼▼ */}
-                {/* 
-                <p className="text-[10px] text-gray-400 mt-2">
-                  ※実績公開・アンケート協力必須
-                </p> 
-                */}
-                {/* ▲▲ ここまで ▲▲ */}
               </div>
 
               <p className="text-sm text-gray-500 mb-6 font-medium">{plan.period}</p>
